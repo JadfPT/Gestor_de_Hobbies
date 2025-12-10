@@ -26,6 +26,11 @@ public class MainController {
         loadView("/ui/views/HobbiesView.fxml");
     }
 
+    @FXML
+    private void onSessoesClicked() {
+        loadView("/ui/views/SessionsView.fxml");
+    }
+
     private void loadView(String resource) {
         try {
             Node view = FXMLLoader.load(getClass().getResource(resource));

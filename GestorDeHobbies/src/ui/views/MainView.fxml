@@ -33,7 +33,8 @@
                     styleClass="sidebar-button selected"
                     onAction="#onHobbiesClicked"/>
             <Button text="📅  Sessões"
-                    styleClass="sidebar-button"/>
+                    styleClass="sidebar-button"
+                    onAction="#onSessoesClicked"/>
             <Button text="📊  Estatísticas"
                     styleClass="sidebar-button"/>
             <Button text="⚙️  Definições"

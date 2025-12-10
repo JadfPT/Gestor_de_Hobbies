@@ -5,24 +5,32 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class App extends Application {
 
+    private static Stage primaryStage;
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("views/MainView.fxml"));
-        Scene scene = new Scene(loader.load());
+    public void start(Stage stage) throws Exception {
+        primaryStage = stage;
 
-        primaryStage.setTitle("Gestor de Hobbies");
-        primaryStage.setScene(scene);
+        Scene scene = new Scene(loadFXML("views/LoginView.fxml"));
+        stage.setTitle("Gestor de Hobbies");
+        stage.setScene(scene);
+        stage.setMinWidth(900);
+        stage.setMinHeight(600);
+        stage.show();
+        stage.setMaximized(true);
+    }
 
-        // tamanho mínimo decente
-        primaryStage.setMinWidth(900);
-        primaryStage.setMinHeight(600);
+    public static void setRoot(String fxml) throws IOException {
+        primaryStage.getScene().setRoot(loadFXML(fxml));
+    }
 
-        primaryStage.show();
-
-        // abre logo maximizada
-        primaryStage.setMaximized(true);
+    private static javafx.scene.Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml));
+        return loader.load();
     }
 
     public static void main(String[] args) {

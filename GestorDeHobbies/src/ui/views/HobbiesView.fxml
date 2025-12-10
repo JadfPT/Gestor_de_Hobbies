@@ -15,24 +15,35 @@
       fx:controller="ui.controllers.HobbiesController"
       spacing="15">
 
-    <!-- HEADER -->
     <HBox spacing="10">
         <Label text="Hobbies" styleClass="card-title"/>
         <Region HBox.hgrow="ALWAYS"/>
+
         <TextField fx:id="txtPesquisar"
                    promptText="Procurar hobby..."
                    styleClass="search-field"/>
+
+        <Button fx:id="btnEditar"
+                text="Editar"
+                styleClass="secondary-button"
+                onAction="#onEditarHobby"/>
+
+        <Button fx:id="btnApagar"
+                text="Apagar"
+                styleClass="secondary-button"
+                onAction="#onApagarHobby"/>
+
         <Button text="+ Novo hobby"
-                styleClass="primary-button"/>
+                styleClass="primary-button"
+                onAction="#onNovoHobby"/>
     </HBox>
 
-    <!-- CARD COM A TABELA -->
     <VBox styleClass="welcome-card" spacing="10">
         <TableView fx:id="tblHobbies" prefHeight="400">
             <columns>
                 <TableColumn fx:id="colNome" text="Nome" prefWidth="200"/>
                 <TableColumn fx:id="colCategoria" text="Categoria" prefWidth="120"/>
-                <TableColumn fx:id="colDescricao" text="Descrição" prefWidth="400"/>
+                <TableColumn fx:id="colDescricao" text="Descrição" prefWidth="350"/>
             </columns>
         </TableView>
     </VBox>

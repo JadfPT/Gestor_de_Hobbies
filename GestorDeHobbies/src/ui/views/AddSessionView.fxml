@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ui.controllers.AddSessionController"
+            stylesheets="@../style/mainstyle.css">
+
+    <center>
+        <StackPane>
+            <VBox spacing="18"
+                  StackPane.alignment="CENTER"
+                  styleClass="dialog-card">
+
+                <!-- CABEÇALHO -->
+                <VBox spacing="4" styleClass="dialog-header">
+                    <Label fx:id="lblTitulo"
+                           text="Nova sessão"
+                           styleClass="dialog-title"/>
+                    <Label fx:id="lblSubtitulo"
+                           text="Regista uma atividade realizada num dos teus hobbies."
+                           styleClass="dialog-subtitle"
+                           wrapText="true"/>
+                </VBox>
+
+                <!-- FORM -->
+                <VBox spacing="16">
+
+                    <!-- HOBBY -->
+                    <VBox spacing="4">
+                        <Label text="Hobby" styleClass="field-label"/>
+                        <ComboBox fx:id="cmbHobby"
+                                  promptText="Escolhe o hobby"
+                                  prefWidth="420"/>
+                    </VBox>
+
+                    <!-- INÍCIO -->
+                    <HBox spacing="14" styleClass="form-row">
+                        <VBox spacing="4">
+                            <Label text="Data de início" styleClass="field-label"/>
+                            <DatePicker fx:id="dpDataInicio" prefWidth="160"/>
+                        </VBox>
+
+                        <VBox spacing="4">
+                            <Label text="Hora de início" styleClass="field-label"/>
+                            <TextField fx:id="txtHoraInicio"
+                                       promptText="HH:MM"
+                                       styleClass="field-input"
+                                       prefWidth="110"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- FIM -->
+                    <HBox spacing="14" styleClass="form-row">
+                        <VBox spacing="4">
+                            <Label text="Data de fim" styleClass="field-label"/>
+                            <DatePicker fx:id="dpDataFim" prefWidth="160"/>
+                        </VBox>
+
+                        <VBox spacing="4">
+                            <Label text="Hora de fim" styleClass="field-label"/>
+                            <TextField fx:id="txtHoraFim"
+                                       promptText="HH:MM"
+                                       styleClass="field-input"
+                                       prefWidth="110"/>
+                        </VBox>
+                    </HBox>
+
+                    <Label text="A duração é calculada automaticamente a partir da data e hora de início e fim."
+                           styleClass="dialog-subtitle"
+                           wrapText="true"/>
+
+                    <!-- NOTAS -->
+                    <VBox spacing="4">
+                        <Label text="Detalhes / Notas" styleClass="field-label"/>
+                        <TextArea fx:id="txtDetalhes"
+                                  prefRowCount="3"
+                                  styleClass="field-textarea"/>
+                    </VBox>
+                </VBox>
+
+                <!-- FOOTER -->
+                <HBox spacing="10" styleClass="dialog-footer">
+                    <Label fx:id="lblMensagem"
+                           styleClass="dialog-message"
+                           wrapText="true"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Cancelar"
+                            styleClass="secondary-button"
+                            onAction="#onCancelar"/>
+                    <Button text="Guardar"
+                            styleClass="primary-button"
+                            onAction="#onGuardar"/>
+                </HBox>
+
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

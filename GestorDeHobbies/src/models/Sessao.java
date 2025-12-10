@@ -1,50 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
 import java.io.Serializable;
-import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
-/**
- *
- * @author João
- */
 public class Sessao implements Serializable {
-    
+
+    private Hobby hobby;
     private LocalDate data;
-    private Duration duracao;
+    private LocalTime hora;
+    private int duracaoMinutos;
     private String notas;
-    
-        public Sessao(LocalDate data, Duration duracao, String notas) {
+
+    public Sessao(Hobby hobby, LocalDate data, LocalTime hora,
+                  int duracaoMinutos, String notas) {
+        this.hobby = hobby;
         this.data = data;
-        this.duracao = duracao;
+        this.hora = hora;
+        this.duracaoMinutos = duracaoMinutos;
         this.notas = notas;
     }
 
-    public LocalDate getData() {
-        return data;
-    }
+    public Hobby getHobby() { return hobby; }
+    public void setHobby(Hobby hobby) { this.hobby = hobby; }
 
-    public void setData(LocalDate data) {
-        this.data = data;
-    }
+    public LocalDate getData() { return data; }
+    public void setData(LocalDate data) { this.data = data; }
 
-    public Duration getDuracao() {
-        return duracao;
-    }
+    public LocalTime getHora() { return hora; }
+    public void setHora(LocalTime hora) { this.hora = hora; }
 
-    public void setDuracao(Duration duracao) {
-        this.duracao = duracao;
-    }
+    public int getDuracaoMinutos() { return duracaoMinutos; }
+    public void setDuracaoMinutos(int duracaoMinutos) { this.duracaoMinutos = duracaoMinutos; }
 
-    public String getNotas() {
-        return notas;
-    }
-
-    public void setNotas(String notas) {
-        this.notas = notas;
-    }
+    public String getNotas() { return notas; }
+    public void setNotas(String notas) { this.notas = notas; }
 }

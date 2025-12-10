@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.controllers.SessionsController"
+      spacing="15">
+
+<HBox spacing="10">
+    <Label text="Sessões" styleClass="card-title"/>
+    <Region HBox.hgrow="ALWAYS"/>
+
+    <TextField fx:id="txtPesquisar"
+               promptText="Procurar por hobby..."
+               styleClass="search-field"/>
+
+    <Button fx:id="btnEditar"
+            text="Editar"
+            styleClass="secondary-button"
+            onAction="#onEditarSessao"/>
+
+    <Button fx:id="btnApagar"
+            text="Apagar"
+            styleClass="secondary-button"
+            onAction="#onApagarSessao"/>
+
+    <Button text="+ Nova sessão"
+            styleClass="primary-button"
+            onAction="#onNovaSessao"/>
+</HBox>
+
+
+    <VBox styleClass="welcome-card" spacing="10">
+        <TableView fx:id="tblSessoes" prefHeight="400">
+            <columns>
+                <TableColumn fx:id="colHobby" text="Hobby" prefWidth="200"/>
+                <TableColumn fx:id="colData" text="Data" prefWidth="110"/>
+                <TableColumn fx:id="colHora" text="Hora" prefWidth="90"/>
+                <TableColumn fx:id="colDuracao" text="Duração (min)" prefWidth="120"/>
+                <TableColumn fx:id="colNotas" text="Detalhes" prefWidth="350"/>
+            </columns>
+        </TableView>
+    </VBox>
+
+</VBox>

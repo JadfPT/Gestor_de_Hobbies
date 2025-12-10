@@ -1,0 +1,117 @@
+/* LOGIN & REGISTER CARDS */
+
+.auth-card {
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER;
+    -fx-max-width: 980;
+    -fx-max-height: 420;
+    -fx-padding: 0 40 0 40;
+}
+
+.auth-left, .auth-right {
+    -fx-padding: 40 40 40 40;
+    -fx-spacing: 16;
+}
+
+.auth-left {
+    -fx-background-color: white;
+    -fx-background-radius: 24 0 0 24;
+    -fx-pref-width: 520;
+}
+
+.auth-right {
+    -fx-background-color: linear-gradient(to bottom right, #2a73cc, #55a6ff);
+    -fx-background-radius: 0 24 24 0;
+    -fx-pref-width: 380;
+    -fx-alignment: TOP_LEFT;
+    -fx-spacing: 16;
+}
+
+/* TÍTULOS / TEXTOS */
+
+.auth-app-title {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2f3b52;
+}
+
+.auth-title {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2f3b52;
+}
+
+.auth-subtitle {
+    -fx-font-size: 12;
+    -fx-text-fill: #6b7280;
+}
+
+/* CAMPOS DE FORMULÁRIO */
+
+.field-label {
+    -fx-font-size: 11;
+    -fx-text-fill: #6b7280;
+}
+
+.field-input {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-background-color: #f9fafb;
+    -fx-border-color: #d1d5db;
+    -fx-padding: 7 10;
+}
+
+.field-input:focused {
+    -fx-border-color: #2a73cc;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(42,115,204,0.25), 8, 0, 0, 0);
+}
+
+/* MENSAGENS DE ERRO / INFO */
+
+.auth-message {
+    -fx-font-size: 11;
+    -fx-text-fill: #ef4444; /* vermelho suave */
+}
+
+/* LADO DIREITO (TEXTO) */
+
+.auth-right-title {
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}
+
+.auth-right-text {
+    -fx-text-fill: #e5efff;
+    -fx-font-size: 12;
+}
+
+.auth-right-footer {
+    -fx-text-fill: #d1e3ff;
+    -fx-font-size: 11;
+}
+
+/* SETA "VOLTAR" NO REGISTER */
+
+.back-row {
+    -fx-alignment: CENTER_LEFT;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #4b5563;
+    -fx-font-size: 14;
+    -fx-background-radius: 999;
+    -fx-padding: 2 8;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-background-color: #e5e7eb;
+}
+
+.back-label {
+    -fx-font-size: 11;
+    -fx-text-fill: #6b7280;
+}

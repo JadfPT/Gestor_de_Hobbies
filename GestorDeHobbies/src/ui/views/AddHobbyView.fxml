@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ui.controllers.AddHobbyController"
+            stylesheets="@../style/mainstyle.css">
+
+    <center>
+        <StackPane>
+            <!-- CARD DO DIÁLOGO -->
+            <VBox spacing="18"
+                  StackPane.alignment="CENTER"
+                  styleClass="dialog-card">
+
+                <!-- CABEÇALHO -->
+                <VBox spacing="4" styleClass="dialog-header">
+                    <Label text="Novo hobby" styleClass="dialog-title"/>
+                    <Label text="Escolhe um hobby comum ou cria um personalizado."
+                           styleClass="dialog-subtitle"
+                           wrapText="true"/>
+                </VBox>
+
+                <!-- FORM -->
+                <VBox spacing="14">
+
+                    <VBox spacing="4">
+                        <Label text="Sugestões de hobbies comuns" styleClass="field-label"/>
+                        <ComboBox fx:id="cmbSugestao"
+                                  promptText="Escolhe uma sugestão..."
+                                  onAction="#onSugestaoSelecionada"
+                                  prefWidth="380"/>
+                    </VBox>
+
+                    <VBox spacing="4">
+                        <Label text="Nome" styleClass="field-label"/>
+                        <TextField fx:id="txtNome"
+                                   promptText="Nome do hobby"
+                                   styleClass="field-input"/>
+                    </VBox>
+
+                    <VBox spacing="4">
+                        <Label text="Categoria" styleClass="field-label"/>
+                        <ComboBox fx:id="cmbCategoria"
+                                  promptText="Escolhe a categoria"
+                                  prefWidth="220"/>
+                    </VBox>
+
+                    <VBox spacing="4">
+                        <Label text="Descrição" styleClass="field-label"/>
+                        <TextArea fx:id="txtDescricao"
+                                  prefRowCount="3"
+                                  styleClass="field-textarea"/>
+                    </VBox>
+                </VBox>
+
+                <!-- FOOTER -->
+                <HBox spacing="10"
+                      styleClass="dialog-footer">
+                    <Label fx:id="lblMensagem"
+                           styleClass="dialog-message"
+                           wrapText="true"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Cancelar"
+                            styleClass="secondary-button"
+                            onAction="#onCancelar"/>
+                    <Button text="Guardar"
+                            styleClass="primary-button"
+                            onAction="#onGuardar"/>
+                </HBox>
+
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

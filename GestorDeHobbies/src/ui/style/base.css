@@ -1,0 +1,58 @@
+.root {
+    -fx-font-family: "Segoe UI", system;
+    -fx-background-color: linear-gradient(to bottom right, #f4f7fb, #e6edf7);
+}
+
+/* TEXTOS GENÉRICOS */
+
+.card-title {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2f3b52;
+}
+
+.card-text {
+    -fx-font-size: 13;
+    -fx-text-fill: #5a6478;
+}
+
+/* BOTÕES GENÉRICOS */
+
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #2a73cc, #55a6ff);
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 8 20;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: linear-gradient(to right, #225fb0, #4b94ee);
+}
+
+.secondary-button {
+    -fx-background-color: #e5e7eb;
+    -fx-text-fill: #374151;
+    -fx-background-radius: 20;
+    -fx-padding: 6 16;
+    -fx-font-size: 13;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #d1d5db;
+}
+
+/* STATUS BAR */
+
+.status-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 6 20 10 20;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+.status-bar .label {
+    -fx-text-fill: #9097aa;
+    -fx-font-size: 11;
+}

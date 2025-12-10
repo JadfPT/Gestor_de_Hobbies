@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ui.controllers.RegisterController"
+            stylesheets="@../style/mainstyle.css">
+
+    <center>
+        <StackPane>
+            <HBox styleClass="auth-card" spacing="0" StackPane.alignment="CENTER">
+
+                <!-- LADO ESQUERDO: FORMULÁRIO -->
+                <VBox spacing="16" styleClass="auth-left">
+
+                    <!-- SETA PARA VOLTAR -->
+                    <HBox spacing="6" styleClass="back-row">
+                        <Button text="←"
+                                styleClass="back-button"
+                                onAction="#onBackToLogin"/>
+                        <Label text="Voltar ao login" styleClass="back-label"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <VBox spacing="4">
+                        <Label text="Criar conta" styleClass="auth-title"/>
+                        <Label text="Cria uma conta local para guardar os teus hobbies."
+                               wrapText="true"
+                               styleClass="auth-subtitle"/>
+                    </VBox>
+
+                    <VBox spacing="10">
+                        <VBox spacing="4">
+                            <Label text="Nome de utilizador" styleClass="field-label"/>
+                            <TextField fx:id="txtUsername"
+                                       promptText="ex: joao"
+                                       styleClass="field-input"/>
+                        </VBox>
+
+                        <VBox spacing="4">
+                            <Label text="Password" styleClass="field-label"/>
+                            <PasswordField fx:id="txtPassword"
+                                           promptText="••••••••"
+                                           styleClass="field-input"/>
+                        </VBox>
+
+                        <VBox spacing="4">
+                            <Label text="Confirmar password" styleClass="field-label"/>
+                            <PasswordField fx:id="txtConfirm"
+                                           promptText="••••••••"
+                                           styleClass="field-input"/>
+                        </VBox>
+                    </VBox>
+
+                    <HBox spacing="10">
+                        <Button text="Criar conta"
+                                styleClass="primary-button"
+                                onAction="#onCreateAccount"/>
+                        <Button text="Cancelar"
+                                styleClass="secondary-button"
+                                onAction="#onBackToLogin"/>
+                    </HBox>
+
+                    <Label fx:id="lblMensagem"
+                           styleClass="auth-message"
+                           wrapText="true"/>
+                </VBox>
+
+                <!-- LADO DIREITO: PAINEL AZUL -->
+                <VBox styleClass="auth-right" spacing="10">
+                    <Label text="Gestor de Hobbies"
+                           styleClass="auth-right-title"/>
+                    <Label text="Personaliza os teus hobbies, regista sessões e acompanha a evolução ao longo do tempo."
+                           wrapText="true"
+                           styleClass="auth-right-text"/>
+                    <Region VBox.vgrow="ALWAYS"/>
+                    <Label text="T02 — Os meus passatempos · POO 2025/2026"
+                           styleClass="auth-right-footer"/>
+                </VBox>
+
+            </HBox>
+        </StackPane>
+    </center>
+</BorderPane>
