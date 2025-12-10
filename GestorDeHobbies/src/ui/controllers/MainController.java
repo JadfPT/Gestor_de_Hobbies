@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import ui.App;
 
 import java.io.IOException;
 
@@ -23,21 +24,28 @@ public class MainController {
 
     @FXML
     private void onHobbiesClicked() {
-        loadView("/ui/views/HobbiesView.fxml");
+        loadView("HobbiesView.fxml");
     }
+    
+    @FXML
+private void onSessionsClicked() {
+    loadView("SessionsView.fxml");
+}
 
     @FXML
-    private void onSessoesClicked() {
-        loadView("/ui/views/SessionsView.fxml");
+    private void onStatsClicked() {
+        loadView("StatsView.fxml");
     }
 
-    private void loadView(String resource) {
+    private void loadView(String fxmlName) {
         try {
-            Node view = FXMLLoader.load(getClass().getResource(resource));
+            Node view = FXMLLoader.load(App.class.getResource("views/" + fxmlName));
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             e.printStackTrace();
-            lblStatus.setText("Erro ao carregar a vista.");
+            if (lblStatus != null) {
+                lblStatus.setText("Erro ao carregar a vista: " + fxmlName);
+            }
         }
     }
 }

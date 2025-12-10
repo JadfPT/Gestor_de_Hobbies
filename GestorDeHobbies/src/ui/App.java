@@ -2,6 +2,7 @@ package ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -28,7 +29,8 @@ public class App extends Application {
         primaryStage.getScene().setRoot(loadFXML(fxml));
     }
 
-    private static javafx.scene.Parent loadFXML(String fxml) throws IOException {
+    // <-- AGORA É PUBLIC
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml));
         return loader.load();
     }

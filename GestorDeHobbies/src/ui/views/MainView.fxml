@@ -32,11 +32,16 @@
             <Button text="🏷️  Hobbies"
                     styleClass="sidebar-button selected"
                     onAction="#onHobbiesClicked"/>
+
             <Button text="📅  Sessões"
                     styleClass="sidebar-button"
-                    onAction="#onSessoesClicked"/>
+                    onAction="#onSessionsClicked"/>
+
+
             <Button text="📊  Estatísticas"
-                    styleClass="sidebar-button"/>
+                    styleClass="sidebar-button"
+                    onAction="#onStatsClicked"/>
+
             <Button text="⚙️  Definições"
                     styleClass="sidebar-button"/>
 
@@ -45,9 +50,10 @@
         </VBox>
     </left>
 
-    <!-- MAIN CONTENT (AQUI TROCAMOS AS VIEWS) -->
+    <!-- MAIN CONTENT: aqui vamos injetando outras views -->
     <center>
         <StackPane fx:id="contentArea" styleClass="content-area">
+            <!-- conteúdo inicial (welcome) -->
             <VBox alignment="CENTER" spacing="15" styleClass="welcome-card">
                 <Label text="Bem-vindo ao Gestor de Hobbies"
                        styleClass="card-title"/>

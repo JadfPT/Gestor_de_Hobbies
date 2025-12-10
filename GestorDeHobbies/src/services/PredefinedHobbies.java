@@ -9,7 +9,7 @@ public enum PredefinedHobbies {
     GAMING("Gaming", Categoria.JOGOS, "Jogos de PC, consola ou mobile."),
     VER_FILMES("Ver filmes e séries", Categoria.FILMES, "Cinema, streaming, séries."),
     OUVIR_MUSICA("Ouvir música", Categoria.MUSICA, "Playlists, álbuns."),
-    ANDAR("Andar a pé", Categoria.DESPORTO, "Caminhadas, passeios."),
+    ANDAR("Andar", Categoria.DESPORTO, "Caminhadas, passeios."),
     CORRER("Correr", Categoria.DESPORTO, "Corrida, jogging."),
     FOTOGRAFIA("Fotografia", Categoria.ARTES, "Fotografia digital ou analógica."),
     COZINHAR("Cozinhar", Categoria.OUTRO, "Experimentar receitas, meal prep."),
