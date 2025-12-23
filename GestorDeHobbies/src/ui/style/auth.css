@@ -1,5 +1,3 @@
-/* LOGIN & REGISTER CARDS */
-
 .auth-card {
     -fx-background-color: transparent;
     -fx-alignment: CENTER;
@@ -27,8 +25,6 @@
     -fx-spacing: 16;
 }
 
-/* TÍTULOS / TEXTOS */
-
 .auth-app-title {
     -fx-font-size: 16;
     -fx-font-weight: bold;
@@ -45,8 +41,6 @@
     -fx-font-size: 12;
     -fx-text-fill: #6b7280;
 }
-
-/* CAMPOS DE FORMULÁRIO */
 
 .field-label {
     -fx-font-size: 11;
@@ -67,14 +61,10 @@
     -fx-effect: dropshadow(gaussian, rgba(42,115,204,0.25), 8, 0, 0, 0);
 }
 
-/* MENSAGENS DE ERRO / INFO */
-
 .auth-message {
     -fx-font-size: 11;
-    -fx-text-fill: #ef4444; /* vermelho suave */
+    -fx-text-fill: #ef4444;
 }
-
-/* LADO DIREITO (TEXTO) */
 
 .auth-right-title {
     -fx-text-fill: white;
@@ -91,8 +81,6 @@
     -fx-text-fill: #d1e3ff;
     -fx-font-size: 11;
 }
-
-/* SETA "VOLTAR" NO REGISTER */
 
 .back-row {
     -fx-alignment: CENTER_LEFT;

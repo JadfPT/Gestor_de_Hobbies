@@ -18,12 +18,10 @@
 
     <center>
         <StackPane>
-            <!-- CARD DO DIÁLOGO -->
             <VBox spacing="18"
                   StackPane.alignment="CENTER"
                   styleClass="dialog-card">
 
-                <!-- CABEÇALHO -->
                 <VBox spacing="4" styleClass="dialog-header">
                     <Label text="Novo hobby" styleClass="dialog-title"/>
                     <Label text="Escolhe um hobby comum ou cria um personalizado."
@@ -31,7 +29,6 @@
                            wrapText="true"/>
                 </VBox>
 
-                <!-- FORM -->
                 <VBox spacing="14">
 
                     <VBox spacing="4">
@@ -64,7 +61,6 @@
                     </VBox>
                 </VBox>
 
-                <!-- FOOTER -->
                 <HBox spacing="10"
                       styleClass="dialog-footer">
                     <Label fx:id="lblMensagem"

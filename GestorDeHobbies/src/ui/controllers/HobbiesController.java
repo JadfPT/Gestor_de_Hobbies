@@ -1,4 +1,3 @@
-// src/ui/controllers/HobbiesController.java
 package ui.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -14,7 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Categoria;
 import models.Hobby;
-import service.AppState;
+import services.AppState;
 
 import java.io.IOException;
 
@@ -56,7 +55,6 @@ public class HobbiesController {
 
         tblHobbies.setItems(dados);
 
-        // desativa botões se nada estiver selecionado
         btnEditar.setDisable(true);
         btnApagar.setDisable(true);
 
@@ -126,7 +124,6 @@ public class HobbiesController {
         }
     }
 
-    /** chamado quando é criado um hobby novo */
     public void adicionarHobby(Hobby hobby) {
         dados.add(hobby);
 
@@ -137,7 +134,6 @@ public class HobbiesController {
         }
     }
 
-    /** chamado quando um hobby existente foi editado no diálogo */
     public void hobbyAtualizado() {
         tblHobbies.refresh();
         var user = AppState.getInstance().getCurrentUser();

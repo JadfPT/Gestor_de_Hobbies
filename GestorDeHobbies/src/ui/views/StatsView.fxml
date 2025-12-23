@@ -17,7 +17,6 @@
       fx:controller="ui.controllers.StatsController"
       spacing="15">
 
-    <!-- TÍTULO -->
     <HBox spacing="10">
         <Label text="Estatísticas" styleClass="card-title"/>
         <Region HBox.hgrow="ALWAYS"/>
@@ -26,7 +25,6 @@
                styleClass="card-text"/>
     </HBox>
 
-    <!-- CARDS RESUMO -->
     <HBox spacing="15" styleClass="stats-row">
         <VBox styleClass="stat-card">
             <Label fx:id="lblTotalSessoes" styleClass="stat-value"/>
@@ -49,10 +47,7 @@
         </VBox>
     </HBox>
 
-    <!-- GRÁFICO + SESSÕES RECENTES -->
-    <!-- GRÁFICO + TEMPO + SESSÕES RECENTES -->
     <HBox spacing="15">
-        <!-- GRÁFICO: SESSÕES POR HOBBY -->
         <VBox styleClass="welcome-card" spacing="10" VBox.vgrow="ALWAYS">
             <Label text="Sessões por hobby" styleClass="card-title"/>
             <BarChart fx:id="chartSessoesPorHobby"
@@ -66,7 +61,6 @@
             </BarChart>
         </VBox>
 
-        <!-- TEMPO POR HOBBY + SESSÕES RECENTES -->
         <VBox styleClass="welcome-card" spacing="10" prefWidth="380">
             <Label text="Tempo total por hobby" styleClass="card-title"/>
 

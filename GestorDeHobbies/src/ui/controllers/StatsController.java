@@ -12,7 +12,7 @@ import javafx.scene.control.TableView;
 import models.Hobby;
 import models.Sessao;
 import models.User;
-import service.AppState;
+import services.AppState;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -79,11 +79,9 @@ public class StatsController {
                 .sum();
         int media = Math.round((float) totalMinutos / totalSessoes);
 
-        // nº de sessões por hobby
         Map<Hobby, Long> porHobby = sessoes.stream()
                 .collect(Collectors.groupingBy(Sessao::getHobby, Collectors.counting()));
 
-        // minutos totais por hobby
         Map<Hobby, Integer> minutosPorHobby = sessoes.stream()
                 .collect(Collectors.groupingBy(
                         Sessao::getHobby,
@@ -106,21 +104,18 @@ public class StatsController {
             lblHobbyTop.setText("—");
         }
 
-        // gráfico: sessões por hobby
         XYChart.Series<String, Number> serieSessoes = new XYChart.Series<>();
         porHobby.forEach((hobby, count) ->
                 serieSessoes.getData().add(new XYChart.Data<>(hobby.getNome(), count))
         );
         chartSessoesPorHobby.getData().setAll(serieSessoes);
 
-        // gráfico: tempo total por hobby
         XYChart.Series<String, Number> serieTempo = new XYChart.Series<>();
         minutosPorHobby.forEach((hobby, minutos) ->
                 serieTempo.getData().add(new XYChart.Data<>(hobby.getNome(), minutos))
         );
         chartTempoPorHobby.getData().setAll(serieTempo);
 
-        // tabela sessões recentes (últimas 5)
         colHobby.setCellValueFactory(cell ->
                 new SimpleStringProperty(cell.getValue().getHobby().getNome()));
         colData.setCellValueFactory(cell ->

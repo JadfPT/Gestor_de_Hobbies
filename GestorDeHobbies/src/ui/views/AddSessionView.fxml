@@ -14,7 +14,6 @@
                   StackPane.alignment="CENTER"
                   styleClass="dialog-card">
 
-                <!-- CABEÇALHO -->
                 <VBox spacing="4" styleClass="dialog-header">
                     <Label fx:id="lblTitulo"
                            text="Nova sessão"
@@ -25,10 +24,8 @@
                            wrapText="true"/>
                 </VBox>
 
-                <!-- FORM -->
                 <VBox spacing="16">
 
-                    <!-- HOBBY -->
                     <VBox spacing="4">
                         <Label text="Hobby" styleClass="field-label"/>
                         <ComboBox fx:id="cmbHobby"
@@ -36,7 +33,6 @@
                                   prefWidth="420"/>
                     </VBox>
 
-                    <!-- INÍCIO -->
                     <HBox spacing="14" styleClass="form-row">
                         <VBox spacing="4">
                             <Label text="Data de início" styleClass="field-label"/>
@@ -52,7 +48,6 @@
                         </VBox>
                     </HBox>
 
-                    <!-- FIM -->
                     <HBox spacing="14" styleClass="form-row">
                         <VBox spacing="4">
                             <Label text="Data de fim" styleClass="field-label"/>
@@ -72,7 +67,6 @@
                            styleClass="dialog-subtitle"
                            wrapText="true"/>
 
-                    <!-- NOTAS -->
                     <VBox spacing="4">
                         <Label text="Detalhes / Notas" styleClass="field-label"/>
                         <TextArea fx:id="txtDetalhes"
@@ -81,7 +75,6 @@
                     </VBox>
                 </VBox>
 
-                <!-- FOOTER -->
                 <HBox spacing="10" styleClass="dialog-footer">
                     <Label fx:id="lblMensagem"
                            styleClass="dialog-message"

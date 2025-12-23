@@ -1,4 +1,3 @@
-// src/ui/controllers/AddHobbyController.java
 package ui.controllers;
 
 import javafx.collections.FXCollections;
@@ -30,7 +29,7 @@ public class AddHobbyController {
     private Label lblMensagem;
 
     private HobbiesController hobbiesController;
-    private Hobby hobbyExistente; // null = novo, != null = editar
+    private Hobby hobbyExistente;
 
     public void setHobbiesController(HobbiesController controller) {
         this.hobbiesController = controller;
@@ -39,18 +38,15 @@ public class AddHobbyController {
     public void setHobbyExistente(Hobby hobby) {
         this.hobbyExistente = hobby;
 
-        // preenche campos com os valores atuais
         txtNome.setText(hobby.getNome());
         cmbCategoria.setValue(hobby.getCategoria());
         txtDescricao.setText(hobby.getDescricao());
 
-        // para edição, queremos tudo editável, independentemente da sugestão original
         txtNome.setEditable(true);
         txtNome.setDisable(false);
         cmbCategoria.setDisable(false);
         txtDescricao.setDisable(false);
 
-        // mantemos a combo de sugestões vazia; o user pode escolher outra se quiser
         cmbSugestao.getSelectionModel().clearSelection();
     }
 
@@ -59,7 +55,6 @@ public class AddHobbyController {
         cmbSugestao.setItems(FXCollections.observableArrayList(PredefinedHobbies.values()));
         cmbCategoria.setItems(FXCollections.observableArrayList(Categoria.values()));
 
-        // estado inicial: tudo editável
         txtNome.setEditable(true);
         txtNome.setDisable(false);
         cmbCategoria.setDisable(false);
@@ -74,7 +69,6 @@ public class AddHobbyController {
         }
 
         if (sel == PredefinedHobbies.OUTRO_PERSONALIZADO) {
-            // modo livre: user escreve tudo
             txtNome.clear();
             txtDescricao.clear();
             cmbCategoria.setValue(null);
@@ -84,7 +78,6 @@ public class AddHobbyController {
             cmbCategoria.setDisable(false);
             txtDescricao.setDisable(false);
         } else {
-            // sugestão fixa: nome + categoria bloqueados; descrição pode ser ajustada
             txtNome.setText(sel.getNome());
             cmbCategoria.setValue(sel.getCategoria());
             if (!sel.getDescricao().isEmpty()) {
@@ -110,7 +103,6 @@ public class AddHobbyController {
         }
 
         if (hobbyExistente != null) {
-            // editar
             hobbyExistente.setNome(nome);
             hobbyExistente.setCategoria(categoria);
             hobbyExistente.setDescricao(descricao);
@@ -119,7 +111,6 @@ public class AddHobbyController {
                 hobbiesController.hobbyAtualizado();
             }
         } else {
-            // novo
             Hobby hobby = new Hobby(nome, categoria, descricao);
             if (hobbiesController != null) {
                 hobbiesController.adicionarHobby(hobby);

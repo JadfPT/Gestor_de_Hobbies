@@ -3,8 +3,6 @@
     -fx-background-color: linear-gradient(to bottom right, #f4f7fb, #e6edf7);
 }
 
-/* TEXTOS GENÉRICOS */
-
 .card-title {
     -fx-font-size: 18;
     -fx-font-weight: bold;
@@ -15,8 +13,6 @@
     -fx-font-size: 13;
     -fx-text-fill: #5a6478;
 }
-
-/* BOTÕES GENÉRICOS */
 
 .primary-button {
     -fx-background-color: linear-gradient(to right, #2a73cc, #55a6ff);
@@ -43,8 +39,6 @@
 .secondary-button:hover {
     -fx-background-color: #d1d5db;
 }
-
-/* STATUS BAR */
 
 .status-bar {
     -fx-background-color: transparent;

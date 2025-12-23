@@ -12,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Sessao;
-import service.AppState;
+import services.AppState;
 
 import java.io.IOException;
 import java.time.LocalDate;

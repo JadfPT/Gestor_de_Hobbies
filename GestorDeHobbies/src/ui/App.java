@@ -29,7 +29,6 @@ public class App extends Application {
         primaryStage.getScene().setRoot(loadFXML(fxml));
     }
 
-    // <-- AGORA É PUBLIC
     public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml));
         return loader.load();

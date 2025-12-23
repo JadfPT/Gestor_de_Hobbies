@@ -6,21 +6,18 @@ import java.io.*;
 
 public final class Persistencia {
 
-    // Pasta MANUAL que tu crias na raiz do projeto
     private static final String PASTA_APPDATA = "appData";
     private static final String FICHEIRO_USERS = "users.dat";
 
     private Persistencia() { }
 
     private static File getFicheiroUsers() {
-        // appdata/users.dat (relativo à pasta do projeto)
         return new File(PASTA_APPDATA, FICHEIRO_USERS);
     }
 
     public static void gravar(AppData dados) throws IOException {
         File f = getFicheiroUsers();
 
-        // se a pasta não existir, damos erro explícito
         File dir = f.getParentFile();
         if (dir == null || !dir.exists()) {
             throw new IOException("Pasta 'appdata' não encontrada. "
@@ -34,7 +31,6 @@ public final class Persistencia {
 
     public static AppData carregar() {
         File f = getFicheiroUsers();
-        // se ainda não existir ficheiro de users, começamos vazio
         if (!f.exists()) {
             return new AppData();
         }

@@ -15,7 +15,6 @@
             fx:controller="ui.controllers.MainController"
             stylesheets="@../style/mainstyle.css">
 
-    <!-- TOP BAR -->
     <top>
         <HBox spacing="10" styleClass="top-bar">
             <Label text="Gestor de Hobbies" styleClass="app-title"/>
@@ -24,7 +23,6 @@
         </HBox>
     </top>
 
-    <!-- SIDE MENU -->
     <left>
         <VBox spacing="10" styleClass="sidebar">
             <Label text="Menu" styleClass="sidebar-title"/>
@@ -50,10 +48,8 @@
         </VBox>
     </left>
 
-    <!-- MAIN CONTENT: aqui vamos injetando outras views -->
     <center>
         <StackPane fx:id="contentArea" styleClass="content-area">
-            <!-- conteúdo inicial (welcome) -->
             <VBox alignment="CENTER" spacing="15" styleClass="welcome-card">
                 <Label text="Bem-vindo ao Gestor de Hobbies"
                        styleClass="card-title"/>
@@ -70,7 +66,6 @@
         </StackPane>
     </center>
 
-    <!-- STATUS BAR -->
     <bottom>
         <HBox styleClass="status-bar">
             <Pane HBox.hgrow="ALWAYS"/>

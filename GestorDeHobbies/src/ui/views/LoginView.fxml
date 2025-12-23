@@ -20,7 +20,6 @@
 <center>
     <StackPane>
         <HBox styleClass="auth-card" spacing="0" StackPane.alignment="CENTER">
-            <!-- LADO ESQUERDO: TEXTO / FORM -->
             <VBox spacing="16" styleClass="auth-left">
                 <Label text="Gestor de Hobbies" styleClass="auth-app-title"/>
 
@@ -61,7 +60,6 @@
                        wrapText="true"/>
             </VBox>
 
-            <!-- LADO DIREITO: PAINEL AZUL -->
             <VBox styleClass="auth-right" spacing="10">
                 <Label text="T02 — Os meus passatempos"
                        styleClass="auth-right-title"/>

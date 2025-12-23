@@ -1,4 +1,3 @@
-// src/models/User.java
 package models;
 
 import java.io.Serializable;

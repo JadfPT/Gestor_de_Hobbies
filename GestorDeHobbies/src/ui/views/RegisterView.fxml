@@ -19,10 +19,8 @@
         <StackPane>
             <HBox styleClass="auth-card" spacing="0" StackPane.alignment="CENTER">
 
-                <!-- LADO ESQUERDO: FORMULÁRIO -->
                 <VBox spacing="16" styleClass="auth-left">
 
-                    <!-- SETA PARA VOLTAR -->
                     <HBox spacing="6" styleClass="back-row">
                         <Button text="←"
                                 styleClass="back-button"
@@ -75,7 +73,6 @@
                            wrapText="true"/>
                 </VBox>
 
-                <!-- LADO DIREITO: PAINEL AZUL -->
                 <VBox styleClass="auth-right" spacing="10">
                     <Label text="Gestor de Hobbies"
                            styleClass="auth-right-title"/>

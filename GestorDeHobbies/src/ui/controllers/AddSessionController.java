@@ -6,7 +6,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.Hobby;
 import models.Sessao;
-import service.AppState;
+import services.AppState;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -43,7 +43,7 @@ public class AddSessionController {
     private Label lblSubtitulo;
 
     private SessionsController sessionsController;
-    private Sessao sessaoExistente; // null = nova, não null = editar
+    private Sessao sessaoExistente;
 
     public void setSessionsController(SessionsController controller) {
         this.sessionsController = controller;
@@ -104,7 +104,7 @@ public class AddSessionController {
         LocalTime horaIni;
         LocalTime horaFim;
         try {
-            horaIni = LocalTime.parse(horaIniStr); // HH:MM
+            horaIni = LocalTime.parse(horaIniStr);
             horaFim = LocalTime.parse(horaFimStr);
         } catch (Exception e) {
             lblMensagem.setText("Hora inválida (usa HH:MM).");
