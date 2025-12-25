@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.controllers.SettingsController"
+      spacing="18">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Definições" styleClass="card-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="lblGlobalMsg" text="" styleClass="card-text"/>
+    </HBox>
+
+    <VBox spacing="12" styleClass="dialog-card">
+        <Label text="Conta" styleClass="card-title"/>
+
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Utilizador atual:" styleClass="card-text"/>
+            <Label fx:id="lblUsername" text="-" styleClass="card-text"/>
+        </HBox>
+
+        <Separator/>
+
+        <Label text="Alterar password" styleClass="card-text"/>
+
+        <GridPane hgap="10" vgap="10">
+            <Label text="Password atual:" styleClass="card-text" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <PasswordField fx:id="pfCurrent" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Nova password:" styleClass="card-text" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <PasswordField fx:id="pfNew" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Confirmar:" styleClass="card-text" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <PasswordField fx:id="pfConfirm" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        </GridPane>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="Guardar nova password"
+                    styleClass="primary-button"
+                    onAction="#onChangePassword"/>
+            <Label fx:id="lblPassMsg" text="" styleClass="card-text"/>
+        </HBox>
+
+        <Separator/>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="Terminar sessão"
+                    styleClass="secondary-button"
+                    onAction="#onLogout"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Zona de perigo:" styleClass="card-text"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Escreve APAGAR para desbloquear:" styleClass="card-text"/>
+            <TextField fx:id="txtDeleteConfirm" promptText="APAGAR"/>
+            <Button fx:id="btnDeleteAccount"
+                    text="Apagar conta"
+                    styleClass="secondary-button"
+                    disable="true"
+                    onAction="#onDeleteAccount"/>
+        </HBox>
+
+        <Label fx:id="lblDeleteMsg" text="" styleClass="card-text"/>
+    </VBox>
+
+    <VBox spacing="12" styleClass="dialog-card">
+        <Label text="Os meus dados" styleClass="card-title"/>
+        <Label text="Limpa todos os hobbies e sessões do utilizador atual (irreversível)." styleClass="card-text"/>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Escreve LIMPAR para desbloquear:" styleClass="card-text"/>
+            <TextField fx:id="txtResetConfirm" promptText="LIMPAR"/>
+            <Button fx:id="btnResetData"
+                    text="Limpar / Reset aos meus dados"
+                    styleClass="secondary-button"
+                    disable="true"
+                    onAction="#onResetData"/>
+        </HBox>
+
+        <Label fx:id="lblResetMsg" text="" styleClass="card-text"/>
+    </VBox>
+
+    <VBox spacing="12" styleClass="dialog-card">
+        <Label text="Preferências da app" styleClass="card-title"/>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <CheckBox fx:id="chkDarkMode" text="Modo escuro" onAction="#onToggleTheme"/>
+            <Label text="(aplica-se ao visual da app)" styleClass="card-text"/>
+        </HBox>
+
+        <Label fx:id="lblThemeMsg" text="" styleClass="card-text"/>
+    </VBox>
+
+</VBox>

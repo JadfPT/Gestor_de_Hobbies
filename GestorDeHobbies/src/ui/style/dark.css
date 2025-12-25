@@ -1,0 +1,163 @@
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #0b1220, #0f172a);
+}
+
+.card-title {
+    -fx-text-fill: #e5e7eb;
+}
+
+.card-text {
+    -fx-text-fill: #cbd5e1;
+}
+
+.top-bar {
+    -fx-background-color: linear-gradient(to right, #1f3a8a, #2563eb);
+}
+
+.app-title {
+    -fx-text-fill: #ffffff;
+}
+
+.app-subtitle {
+    -fx-text-fill: #bfdbfe;
+}
+
+.sidebar {
+    -fx-background-color: #0b1220;
+    -fx-border-color: #1f2937;
+    -fx-border-width: 0 1 0 0;
+}
+
+.sidebar-title {
+    -fx-text-fill: #e5e7eb;
+}
+
+.sidebar-footer {
+    -fx-text-fill: #94a3b8;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e5e7eb;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-button.selected {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+}
+
+.content-area {
+    -fx-background-color: transparent;
+}
+
+.dialog-card,
+.welcome-card,
+.stat-card {
+    -fx-background-color: #111827;
+    -fx-border-color: #1f2937;
+    -fx-border-width: 1;
+}
+
+.dialog-title {
+    -fx-text-fill: #e5e7eb;
+}
+
+.dialog-subtitle,
+.dialog-message {
+    -fx-text-fill: #cbd5e1;
+}
+
+.separator .line {
+    -fx-border-color: #334155;
+}
+
+.field-input,
+.text-field,
+.password-field {
+    -fx-background-color: #0b1220;
+    -fx-text-fill: #e5e7eb;
+    -fx-prompt-text-fill: #64748b;
+    -fx-border-color: #334155;
+}
+
+.text-field:focused,
+.password-field:focused {
+    -fx-border-color: #60a5fa;
+}
+
+.primary-button {
+    -fx-text-fill: white;
+}
+
+.secondary-button {
+    -fx-background-color: #334155;
+    -fx-text-fill: #e5e7eb;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #475569;
+}
+
+.back-button {
+    -fx-text-fill: #cbd5e1;
+}
+
+.check-box {
+    -fx-text-fill: #e5e7eb;
+}
+
+.check-box .box {
+    -fx-background-color: #0b1220;
+    -fx-border-color: #334155;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #60a5fa;
+}
+
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.list-view,
+.table-view {
+    -fx-background-color: #111827;
+    -fx-control-inner-background: #111827;
+    -fx-text-fill: #e5e7eb;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #0b1220;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: #0b1220;
+    -fx-border-color: #1f2937;
+}
+
+.table-row-cell {
+    -fx-background-color: #111827;
+    -fx-text-fill: #e5e7eb;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #0f172a;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #1d4ed8;
+}
+
+.status-bar .label {
+    -fx-text-fill: #94a3b8;
+}
