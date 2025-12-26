@@ -1,24 +1,23 @@
 package ui.controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import models.Hobby;
 import models.Sessao;
-import models.User;
 import services.AppState;
 
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class StatsController {
 
@@ -50,103 +49,152 @@ public class StatsController {
     private TableColumn<Sessao, String> colHobby;
 
     @FXML
-    private TableColumn<Sessao, String> colData;
+    private TableColumn<Sessao, LocalDate> colData;
 
     @FXML
     private TableColumn<Sessao, Integer> colMinutos;
 
-    private final DateTimeFormatter fmtData = DateTimeFormatter.ofPattern("dd/MM");
-
     @FXML
     private void initialize() {
-        User user = AppState.getInstance().getCurrentUser();
-        if (user == null) {
-            lblResumo.setText("Nenhum utilizador autenticado.");
-            setZeroStats();
-            return;
+        if (colHobby != null) {
+            colHobby.setCellValueFactory(cell -> {
+                Sessao s = cell.getValue();
+                String nome = (s != null && s.getHobby() != null && s.getHobby().getNome() != null)
+                        ? s.getHobby().getNome()
+                        : "—";
+                return new SimpleStringProperty(nome);
+            });
         }
 
-        List<Sessao> sessoes = user.getSessoes();
-        if (sessoes.isEmpty()) {
-            lblResumo.setText("Ainda não tens sessões registadas.");
-            setZeroStats();
-            return;
+        if (colData != null) {
+            colData.setCellValueFactory(cell -> {
+                Sessao s = cell.getValue();
+                return new SimpleObjectProperty<>(s != null ? s.getData() : null);
+            });
         }
 
-        int totalSessoes = sessoes.size();
-        int totalMinutos = sessoes.stream()
-                .mapToInt(Sessao::getDuracaoMinutos)
-                .sum();
-        int media = Math.round((float) totalMinutos / totalSessoes);
-
-        Map<Hobby, Long> porHobby = sessoes.stream()
-                .collect(Collectors.groupingBy(Sessao::getHobby, Collectors.counting()));
-
-        Map<Hobby, Integer> minutosPorHobby = sessoes.stream()
-                .collect(Collectors.groupingBy(
-                        Sessao::getHobby,
-                        Collectors.summingInt(Sessao::getDuracaoMinutos)
-                ));
-
-        Hobby hobbyTop = porHobby.entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse(null);
-
-        lblResumo.setText("Resumo das tuas atividades.");
-        lblTotalSessoes.setText(String.valueOf(totalSessoes));
-        lblTotalMinutos.setText(totalMinutos + " min");
-        lblDuracaoMedia.setText(media + " min");
-
-        if (hobbyTop != null) {
-            lblHobbyTop.setText(hobbyTop.getNome());
-        } else {
-            lblHobbyTop.setText("—");
+        if (colMinutos != null) {
+            colMinutos.setCellValueFactory(cell -> {
+                Sessao s = cell.getValue();
+                int m = (s != null) ? s.getDuracaoMinutos() : 0;
+                return new SimpleIntegerProperty(m).asObject();
+            });
         }
 
-        XYChart.Series<String, Number> serieSessoes = new XYChart.Series<>();
-        porHobby.forEach((hobby, count) ->
-                serieSessoes.getData().add(new XYChart.Data<>(hobby.getNome(), count))
-        );
-        chartSessoesPorHobby.getData().setAll(serieSessoes);
+        if (chartSessoesPorHobby != null) {
+            chartSessoesPorHobby.setLegendVisible(false);
+            chartSessoesPorHobby.setAnimated(false);
+            chartSessoesPorHobby.setCategoryGap(18);
+            chartSessoesPorHobby.setBarGap(4);
+        }
 
-        XYChart.Series<String, Number> serieTempo = new XYChart.Series<>();
-        minutosPorHobby.forEach((hobby, minutos) ->
-                serieTempo.getData().add(new XYChart.Data<>(hobby.getNome(), minutos))
-        );
-        chartTempoPorHobby.getData().setAll(serieTempo);
+        if (chartTempoPorHobby != null) {
+            chartTempoPorHobby.setLegendVisible(false);
+            chartTempoPorHobby.setAnimated(false);
+            chartTempoPorHobby.setCategoryGap(18);
+            chartTempoPorHobby.setBarGap(4);
+        }
 
-        colHobby.setCellValueFactory(cell ->
-                new SimpleStringProperty(cell.getValue().getHobby().getNome()));
-        colData.setCellValueFactory(cell ->
-                new SimpleStringProperty(cell.getValue().getData().format(fmtData)));
-        colMinutos.setCellValueFactory(cell ->
-                new SimpleIntegerProperty(cell.getValue().getDuracaoMinutos()).asObject());
-
-        List<Sessao> ultimas = sessoes.stream()
-                .sorted(Comparator
-                        .comparing(Sessao::getData)
-                        .thenComparing(Sessao::getHora)
-                        .reversed())
-                .limit(5)
-                .collect(Collectors.toList());
-
-        tblRecentes.setItems(FXCollections.observableArrayList(ultimas));
+        refresh();
     }
 
-    private void setZeroStats() {
-        lblTotalSessoes.setText("0");
-        lblTotalMinutos.setText("0 min");
-        lblDuracaoMedia.setText("0 min");
-        lblHobbyTop.setText("—");
-        if (chartSessoesPorHobby != null) {
-            chartSessoesPorHobby.getData().clear();
+    public void refresh() {
+        var user = AppState.getInstance().getCurrentUser();
+        if (user == null) {
+            setEmptyUI();
+            return;
         }
-        if (chartTempoPorHobby != null) {
-            chartTempoPorHobby.getData().clear();
+
+        List<Sessao> sessoes = new ArrayList<>(user.getSessoes());
+
+        int totalSessoes = sessoes.size();
+        int totalMinutos = 0;
+
+        Map<String, Integer> countByHobby = new LinkedHashMap<>();
+        Map<String, Integer> minutesByHobby = new LinkedHashMap<>();
+
+        for (Sessao s : sessoes) {
+            int dur = (s != null) ? s.getDuracaoMinutos() : 0;
+            totalMinutos += Math.max(0, dur);
+
+            String hobby = (s != null && s.getHobby() != null && s.getHobby().getNome() != null)
+                    ? s.getHobby().getNome()
+                    : "—";
+
+            countByHobby.put(hobby, countByHobby.getOrDefault(hobby, 0) + 1);
+            minutesByHobby.put(hobby, minutesByHobby.getOrDefault(hobby, 0) + Math.max(0, dur));
         }
+
+        int duracaoMedia = totalSessoes == 0 ? 0 : (int) Math.round((double) totalMinutos / totalSessoes);
+
+        String hobbyTop = "—";
+        if (!countByHobby.isEmpty()) {
+            hobbyTop = countByHobby.entrySet().stream()
+                    .max((a, b) -> {
+                        int cmp = Integer.compare(a.getValue(), b.getValue());
+                        if (cmp != 0) return cmp;
+                        int ma = minutesByHobby.getOrDefault(a.getKey(), 0);
+                        int mb = minutesByHobby.getOrDefault(b.getKey(), 0);
+                        cmp = Integer.compare(ma, mb);
+                        if (cmp != 0) return cmp;
+                        return b.getKey().compareToIgnoreCase(a.getKey());
+                    })
+                    .map(Map.Entry::getKey)
+                    .orElse("—");
+        }
+
+        if (lblResumo != null) {
+            lblResumo.setText(totalSessoes == 0 ? "Ainda não tens sessões registadas." : "Resumo das tuas atividades.");
+        }
+        if (lblTotalSessoes != null) lblTotalSessoes.setText(String.valueOf(totalSessoes));
+        if (lblTotalMinutos != null) lblTotalMinutos.setText(String.valueOf(totalMinutos));
+        if (lblDuracaoMedia != null) lblDuracaoMedia.setText(String.valueOf(duracaoMedia));
+        if (lblHobbyTop != null) lblHobbyTop.setText(hobbyTop);
+
+        fillChart(chartSessoesPorHobby, sortAndLimit(countByHobby, 8), "Sessões");
+        fillChart(chartTempoPorHobby, sortAndLimit(minutesByHobby, 8), "Minutos");
+
         if (tblRecentes != null) {
-            tblRecentes.getItems().clear();
+            sessoes.sort(Comparator
+                    .comparing(Sessao::getData, Comparator.nullsLast(Comparator.naturalOrder()))
+                    .thenComparing(Sessao::getHora, Comparator.nullsLast(Comparator.naturalOrder()))
+                    .reversed());
+
+            int limit = Math.min(7, sessoes.size());
+            tblRecentes.getItems().setAll(sessoes.subList(0, limit));
         }
+    }
+
+    private void setEmptyUI() {
+        if (lblResumo != null) lblResumo.setText("Sem sessão ativa.");
+        if (lblTotalSessoes != null) lblTotalSessoes.setText("0");
+        if (lblTotalMinutos != null) lblTotalMinutos.setText("0");
+        if (lblDuracaoMedia != null) lblDuracaoMedia.setText("0");
+        if (lblHobbyTop != null) lblHobbyTop.setText("—");
+        if (chartSessoesPorHobby != null) chartSessoesPorHobby.getData().clear();
+        if (chartTempoPorHobby != null) chartTempoPorHobby.getData().clear();
+        if (tblRecentes != null) tblRecentes.getItems().clear();
+    }
+
+    private Map<String, Integer> sortAndLimit(Map<String, Integer> in, int limit) {
+        return in.entrySet().stream()
+                .sorted((a, b) -> Integer.compare(b.getValue(), a.getValue()))
+                .limit(limit)
+                .collect(LinkedHashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), LinkedHashMap::putAll);
+    }
+
+    private void fillChart(BarChart<String, Number> chart, Map<String, Integer> data, String seriesName) {
+        if (chart == null) return;
+
+        chart.getData().clear();
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName(seriesName);
+
+        for (var e : data.entrySet()) {
+            series.getData().add(new XYChart.Data<>(e.getKey(), e.getValue()));
+        }
+
+        chart.getData().add(series);
     }
 }

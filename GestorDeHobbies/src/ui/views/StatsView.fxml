@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -10,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -47,11 +45,11 @@
         </VBox>
     </HBox>
 
-    <HBox spacing="15">
-        <VBox styleClass="welcome-card" spacing="10" VBox.vgrow="ALWAYS">
+    <HBox spacing="18">
+        <VBox styleClass="welcome-card" spacing="10" VBox.vgrow="ALWAYS" minWidth="0" HBox.hgrow="ALWAYS">
             <Label text="Sessões por hobby" styleClass="card-title"/>
             <BarChart fx:id="chartSessoesPorHobby"
-                      prefHeight="260">
+                      prefHeight="235" minWidth="0">
                 <xAxis>
                     <CategoryAxis label="Hobby"/>
                 </xAxis>
@@ -61,11 +59,11 @@
             </BarChart>
         </VBox>
 
-        <VBox styleClass="welcome-card" spacing="10" prefWidth="380">
+        <VBox styleClass="welcome-card" spacing="10" prefWidth="360" minWidth="0" HBox.hgrow="ALWAYS">
             <Label text="Tempo total por hobby" styleClass="card-title"/>
 
             <BarChart fx:id="chartTempoPorHobby"
-                      prefHeight="160">
+                      prefHeight="140" minWidth="0">
                 <xAxis>
                     <CategoryAxis label="Hobby"/>
                 </xAxis>
@@ -76,7 +74,7 @@
 
             <Label text="Sessões recentes" styleClass="card-title"/>
 
-            <TableView fx:id="tblRecentes" prefHeight="130">
+            <TableView fx:id="tblRecentes" prefHeight="150" minWidth="0">
                 <columns>
                     <TableColumn fx:id="colHobby" text="Hobby" prefWidth="150"/>
                     <TableColumn fx:id="colData" text="Data" prefWidth="90"/>

@@ -102,7 +102,6 @@
 
         <HBox spacing="10" alignment="CENTER_LEFT">
             <CheckBox fx:id="chkDarkMode" text="Modo escuro" onAction="#onToggleTheme"/>
-            <Label text="(aplica-se ao visual da app)" styleClass="card-text"/>
         </HBox>
 
         <Label fx:id="lblThemeMsg" text="" styleClass="card-text"/>

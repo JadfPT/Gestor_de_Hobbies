@@ -1,52 +1,152 @@
 .root {
-    -fx-font-family: "Segoe UI", system;
-    -fx-background-color: linear-gradient(to bottom right, #f4f7fb, #e6edf7);
+    -gh-bg: #eef3fb;
+    -gh-surface: #ffffff;
+    -gh-surface-2: #f3f6fb;
+
+    -gh-text: #0f172a;
+    -gh-muted: #64748b;
+
+    -gh-border: rgba(15, 23, 42, 0.10);
+    -gh-shadow: rgba(15, 23, 42, 0.18);
+
+    -gh-accent: #3b82f6;
+    -gh-accent-hover: #2563eb;
+
+    -gh-danger: #ef4444;
+    -gh-danger-hover: #dc2626;
+
+    -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
+    -fx-background-color: -gh-bg;
 }
 
-.card-title {
-    -fx-font-size: 18;
+.root.dark {
+    -gh-bg: #0b1220;
+    -gh-surface: #111827;
+    -gh-surface-2: #0f172a;
+
+    -gh-text: #e5e7eb;
+    -gh-muted: #94a3b8;
+
+    -gh-border: rgba(148, 163, 184, 0.18);
+    -gh-shadow: rgba(0, 0, 0, 0.55);
+
+    -gh-accent: #60a5fa;
+    -gh-accent-hover: #3b82f6;
+
+    -gh-danger: #f87171;
+    -gh-danger-hover: #ef4444;
+
+    -fx-background-color: -gh-bg;
+}
+
+.text-muted {
+    -fx-text-fill: -gh-muted;
+}
+
+.text-title {
+    -fx-text-fill: -gh-text;
     -fx-font-weight: bold;
-    -fx-text-fill: #2f3b52;
 }
 
-.card-text {
-    -fx-font-size: 13;
-    -fx-text-fill: #5a6478;
+.text-field, .password-field, .combo-box-base, .date-picker, .spinner, .choice-box {
+    -fx-background-color: -gh-surface;
+    -fx-text-fill: -gh-text;
+    -fx-prompt-text-fill: -gh-muted;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -gh-border;
+    -fx-border-width: 1;
+    -fx-padding: 8 10;
 }
 
-.primary-button {
-    -fx-background-color: linear-gradient(to right, #2a73cc, #55a6ff);
-    -fx-text-fill: white;
-    -fx-background-radius: 20;
-    -fx-padding: 8 20;
-    -fx-font-size: 13;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
+.root.dark .text-field,
+.root.dark .password-field,
+.root.dark .combo-box-base,
+.root.dark .date-picker,
+.root.dark .spinner,
+.root.dark .choice-box {
+    -fx-background-color: rgba(255,255,255,0.06);
+    -fx-border-color: rgba(255,255,255,0.14);
 }
 
-.primary-button:hover {
-    -fx-background-color: linear-gradient(to right, #225fb0, #4b94ee);
+.label {
+    -fx-text-fill: -gh-text;
 }
 
-.secondary-button {
-    -fx-background-color: #e5e7eb;
-    -fx-text-fill: #374151;
-    -fx-background-radius: 20;
-    -fx-padding: 6 16;
-    -fx-font-size: 13;
+.root.dark .label {
+    -fx-text-fill: -gh-text;
 }
 
-.secondary-button:hover {
-    -fx-background-color: #d1d5db;
+.separator .line {
+    -fx-border-color: -gh-border;
 }
 
-.status-bar {
+.table-view {
+    -fx-background-color: -gh-surface;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: -gh-border;
+    -fx-border-width: 1;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -gh-surface-2;
+    -fx-background-radius: 14 14 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
     -fx-background-color: transparent;
-    -fx-padding: 6 20 10 20;
-    -fx-alignment: CENTER_RIGHT;
+    -fx-border-color: transparent;
 }
 
-.status-bar .label {
-    -fx-text-fill: #9097aa;
-    -fx-font-size: 11;
+.table-view .column-header .label {
+    -fx-text-fill: -gh-muted;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -gh-text;
+}
+
+.table-row-cell:filled:selected, .table-row-cell:filled:selected:hover {
+    -fx-background-color: derive(-gh-accent, 80%);
+}
+
+.root.dark .table-row-cell:filled:selected,
+.root.dark .table-row-cell:filled:selected:hover {
+    -fx-background-color: rgba(96,165,250,0.18);
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.chart {
+    -fx-background-color: transparent;
+}
+
+.chart-plot-background {
+    -fx-background-color: rgba(0,0,0,0.03);
+    -fx-background-radius: 12;
+}
+
+.root.dark .chart-plot-background {
+    -fx-background-color: rgba(255,255,255,0.06);
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+.axis-label, .axis-tick-mark, .axis-minor-tick-mark {
+    -fx-stroke: -gh-muted;
+}
+
+.axis {
+    -fx-tick-label-fill: -gh-muted;
 }

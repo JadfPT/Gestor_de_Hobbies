@@ -11,33 +11,52 @@ import services.AppState;
 import ui.App;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class SettingsController {
 
-    @FXML private Label lblUsername;
+    @FXML
+    private Label lblUsername;
 
-    @FXML private PasswordField pfCurrent;
-    @FXML private PasswordField pfNew;
-    @FXML private PasswordField pfConfirm;
-    @FXML private Label lblPassMsg;
+    @FXML
+    private PasswordField pfCurrent;
 
-    @FXML private TextField txtDeleteConfirm;
-    @FXML private Button btnDeleteAccount;
-    @FXML private Label lblDeleteMsg;
+    @FXML
+    private PasswordField pfNew;
 
-    @FXML private TextField txtResetConfirm;
-    @FXML private Button btnResetData;
-    @FXML private Label lblResetMsg;
+    @FXML
+    private PasswordField pfConfirm;
 
-    @FXML private CheckBox chkDarkMode;
-    @FXML private Label lblThemeMsg;
+    @FXML
+    private Label lblPassMsg;
 
-    @FXML private Label lblGlobalMsg;
+    @FXML
+    private TextField txtDeleteConfirm;
 
-    private String darkCssUrl;
+    @FXML
+    private Button btnDeleteAccount;
+
+    @FXML
+    private Label lblDeleteMsg;
+
+    @FXML
+    private TextField txtResetConfirm;
+
+    @FXML
+    private Button btnResetData;
+
+    @FXML
+    private Label lblResetMsg;
+
+    @FXML
+    private CheckBox chkDarkMode;
+
+    @FXML
+    private Label lblThemeMsg;
+
+    @FXML
+    private Label lblGlobalMsg;
 
     @FXML
     public void initialize() {
@@ -56,16 +75,7 @@ public class SettingsController {
             lblResetMsg.setText("");
         });
 
-        URL url = App.class.getResource("style/dark.css");
-        darkCssUrl = (url != null) ? url.toExternalForm() : null;
-
-        Platform.runLater(() -> {
-            Scene scene = getSceneSafe();
-            if (scene == null) return;
-
-            boolean hasDark = darkCssUrl != null && scene.getStylesheets().contains(darkCssUrl);
-            chkDarkMode.setSelected(hasDark);
-        });
+        Platform.runLater(() -> chkDarkMode.setSelected(App.isDarkModeEnabled()));
     }
 
     @FXML
@@ -114,6 +124,22 @@ public class SettingsController {
         pfConfirm.clear();
 
         lblPassMsg.setText("Password alterada com sucesso.");
+    }
+
+    @FXML
+    private void onToggleTheme() {
+        lblThemeMsg.setText("");
+
+        Scene scene = getSceneSafe();
+        if (scene == null) {
+            lblThemeMsg.setText("Scene ainda não está pronta.");
+            return;
+        }
+
+        boolean enable = chkDarkMode.isSelected();
+        App.setDarkModeEnabled(enable);
+
+        lblThemeMsg.setText(enable ? "Modo escuro ativado." : "Modo escuro desativado.");
     }
 
     @FXML
@@ -174,34 +200,6 @@ public class SettingsController {
         lblResetMsg.setText("OK: removidos " + hobbiesAntes + " hobbies e " + sessoesAntes + " sessões.");
     }
 
-    @FXML
-    private void onToggleTheme() {
-        lblThemeMsg.setText("");
-
-        Scene scene = getSceneSafe();
-        if (scene == null) {
-            lblThemeMsg.setText("Scene ainda não está pronta.");
-            return;
-        }
-
-        if (darkCssUrl == null) {
-            lblThemeMsg.setText("dark.css ainda não existe.");
-            chkDarkMode.setSelected(false);
-            return;
-        }
-
-        boolean enable = chkDarkMode.isSelected();
-        if (enable) {
-            if (!scene.getStylesheets().contains(darkCssUrl)) {
-                scene.getStylesheets().add(darkCssUrl);
-            }
-            lblThemeMsg.setText("Modo escuro ativado.");
-        } else {
-            scene.getStylesheets().remove(darkCssUrl);
-            lblThemeMsg.setText("Modo escuro desativado.");
-        }
-    }
-
     private Scene getSceneSafe() {
         if (lblUsername == null) return null;
         return lblUsername.getScene();
@@ -213,6 +211,14 @@ public class SettingsController {
         a.setHeaderText(header);
         a.setContentText(content);
         a.getButtonTypes().setAll(ButtonType.CANCEL, ButtonType.OK);
+
+        DialogPane pane = a.getDialogPane();
+        if (pane != null) {
+            if (App.isDarkModeEnabled() && !pane.getStyleClass().contains("dark")) {
+                pane.getStyleClass().add("dark");
+            }
+        }
+
         return a.showAndWait();
     }
 }
