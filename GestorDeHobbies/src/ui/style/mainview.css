@@ -100,8 +100,9 @@
     -fx-background-insets: 0;
 }
 
-.sidebar-button.selected:focused,
+.sidebar-button.selected:focused {
     -fx-background-insets: 0;
+}
 
 .page-title {
     -fx-font-size: 24px;
