@@ -3,6 +3,7 @@ package ui.controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,12 +12,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ui.App;
 import models.Sessao;
 import services.AppState;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class SessionsController {
 
@@ -48,6 +51,7 @@ public class SessionsController {
     private Button btnApagar;
 
     private final ObservableList<Sessao> dados = FXCollections.observableArrayList();
+    private FilteredList<Sessao> filtrado;
 
     @FXML
     private void initialize() {
@@ -63,7 +67,39 @@ public class SessionsController {
             dados.setAll(user.getSessoes());
         }
 
-        tblSessoes.setItems(dados);
+        filtrado = new FilteredList<>(dados, s -> true);
+        tblSessoes.setItems(filtrado);
+
+        // Apply formatting for date/time columns based on app preferences
+        if (colData != null) {
+            colData.setCellFactory(col -> new TableCell<>() {
+                @Override
+                protected void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        DateTimeFormatter fmt = DateTimeFormatter.ofPattern(ui.App.getDateFormatPattern());
+                        setText(item.format(fmt));
+                    }
+                }
+            });
+        }
+        if (colHora != null) {
+            colHora.setCellFactory(col -> new TableCell<>() {
+                @Override
+                protected void updateItem(LocalTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        String pattern = ui.App.isUse24HourTime() ? "HH:mm" : "h:mm a";
+                        DateTimeFormatter fmt = DateTimeFormatter.ofPattern(pattern);
+                        setText(item.format(fmt));
+                    }
+                }
+            });
+        }
 
         btnEditar.setDisable(true);
         btnApagar.setDisable(true);
@@ -73,6 +109,20 @@ public class SessionsController {
             btnEditar.setDisable(!has);
             btnApagar.setDisable(!has);
         });
+
+        // Pesquisa por hobby, notas ou data
+        if (txtPesquisar != null) {
+            txtPesquisar.textProperty().addListener((obs, ov, nv) -> {
+                String q = nv == null ? "" : nv.trim().toLowerCase();
+                filtrado.setPredicate(s -> {
+                    if (q.isEmpty()) return true;
+                    String hobby = s.getHobby() != null && s.getHobby().getNome() != null ? s.getHobby().getNome().toLowerCase() : "";
+                    String notas = s.getNotas() != null ? s.getNotas().toLowerCase() : "";
+                    String data = s.getData() != null ? s.getData().toString().toLowerCase() : "";
+                    return hobby.contains(q) || notas.contains(q) || data.contains(q);
+                });
+            });
+        }
     }
 
     @FXML
@@ -127,6 +177,7 @@ public class SessionsController {
             dialog.setTitle(aEditar == null ? "Nova sessão" : "Editar sessão");
             dialog.setScene(new Scene(root));
             dialog.setResizable(false);
+            if (App.getAppIcon() != null) dialog.getIcons().add(App.getAppIcon());
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

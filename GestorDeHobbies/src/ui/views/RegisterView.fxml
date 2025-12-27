@@ -41,28 +41,32 @@
                             <Label text="Nome de utilizador" styleClass="field-label"/>
                             <TextField fx:id="txtUsername"
                                        promptText="ex: joao"
-                                       styleClass="field-input"/>
+                                       styleClass="field-input"
+                                       onAction="#onCreateAccount"/>
                         </VBox>
 
                         <VBox spacing="4">
                             <Label text="Password" styleClass="field-label"/>
                             <PasswordField fx:id="txtPassword"
                                            promptText="••••••••"
-                                           styleClass="field-input"/>
+                                           styleClass="field-input"
+                                           onAction="#onCreateAccount"/>
                         </VBox>
 
                         <VBox spacing="4">
                             <Label text="Confirmar password" styleClass="field-label"/>
                             <PasswordField fx:id="txtConfirm"
                                            promptText="••••••••"
-                                           styleClass="field-input"/>
+                                           styleClass="field-input"
+                                           onAction="#onCreateAccount"/>
                         </VBox>
                     </VBox>
 
                     <HBox spacing="10">
                         <Button text="Criar conta"
-                                styleClass="primary-button"
-                                onAction="#onCreateAccount"/>
+                            styleClass="primary-button"
+                            defaultButton="true"
+                            onAction="#onCreateAccount"/>
                         <Button text="Cancelar"
                                 styleClass="secondary-button"
                                 onAction="#onBackToLogin"/>

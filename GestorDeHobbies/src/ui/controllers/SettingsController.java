@@ -59,6 +59,15 @@ public class SettingsController {
     private Label lblGlobalMsg;
 
     @FXML
+    private ComboBox<String> cmbTimeFormat;
+
+    @FXML
+    private ComboBox<String> cmbDateFormat;
+
+    @FXML
+    private ColorPicker colorChart;
+
+    @FXML
     public void initialize() {
         User u = AppState.getInstance().getCurrentUser();
         lblUsername.setText(u != null ? u.getUsername() : "(sem sessão)");
@@ -76,6 +85,24 @@ public class SettingsController {
         });
 
         Platform.runLater(() -> chkDarkMode.setSelected(App.isDarkModeEnabled()));
+
+        // Populate preference combo boxes
+        if (cmbTimeFormat != null) {
+            cmbTimeFormat.getItems().setAll("24h", "12h");
+            cmbTimeFormat.setValue(App.isUse24HourTime() ? "24h" : "12h");
+            cmbTimeFormat.setOnAction(e -> onChangeTimeFormat());
+        }
+        if (cmbDateFormat != null) {
+            cmbDateFormat.getItems().setAll("yyyy-MM-dd", "MM-dd-yyyy", "dd-MM-yyyy");
+            cmbDateFormat.setValue(App.getDateFormatPattern());
+            cmbDateFormat.setOnAction(e -> onChangeDateFormat());
+        }
+        if (colorChart != null) {
+            colorChart.setOnAction(e -> onChangeChartColor());
+            try {
+                colorChart.setValue(javafx.scene.paint.Color.web(App.getChartColor()));
+            } catch (Exception ignored) {}
+        }
     }
 
     @FXML
@@ -138,8 +165,57 @@ public class SettingsController {
 
         boolean enable = chkDarkMode.isSelected();
         App.setDarkModeEnabled(enable);
+        // Guardar preferência no utilizador
+        var u = AppState.getInstance().getCurrentUser();
+        if (u != null) {
+            u.setPrefDarkMode(enable);
+            AppState.getInstance().guardar();
+        }
+        data.PreferencesStore.saveAppPrefs();
 
-        lblThemeMsg.setText(enable ? "Modo escuro ativado." : "Modo escuro desativado.");
+        // No status text requested; keep silent.
+    }
+
+    @FXML
+    private void onChangeTimeFormat() {
+        String sel = cmbTimeFormat.getValue();
+        App.setUse24HourTime("24h".equals(sel));
+        var u = AppState.getInstance().getCurrentUser();
+        if (u != null) {
+            u.setPrefUse24HourTime(App.isUse24HourTime());
+            AppState.getInstance().guardar();
+        }
+        data.PreferencesStore.saveAppPrefs();
+    }
+
+    @FXML
+    private void onChangeDateFormat() {
+        String fmt = cmbDateFormat.getValue();
+        App.setDateFormatPattern(fmt);
+        var u = AppState.getInstance().getCurrentUser();
+        if (u != null) {
+            u.setPrefDateFormat(fmt);
+            AppState.getInstance().guardar();
+        }
+        data.PreferencesStore.saveAppPrefs();
+    }
+
+    @FXML
+    private void onChangeChartColor() {
+        var c = colorChart.getValue();
+        if (c != null) {
+            String hex = String.format("#%02X%02X%02X",
+                    (int) Math.round(c.getRed() * 255),
+                    (int) Math.round(c.getGreen() * 255),
+                    (int) Math.round(c.getBlue() * 255));
+            App.setChartColor(hex);
+            var u = AppState.getInstance().getCurrentUser();
+            if (u != null) {
+                u.setPrefChartColor(hex);
+                AppState.getInstance().guardar();
+            }
+            data.PreferencesStore.saveAppPrefs();
+        }
     }
 
     @FXML

@@ -27,11 +27,11 @@
         <VBox spacing="10" styleClass="sidebar">
             <Label text="Menu" styleClass="sidebar-title"/>
 
-            <Button text="🏷️  Hobbies"
-                    styleClass="sidebar-button selected"
+                <Button text="🎯  Hobbies"
+                    styleClass="sidebar-button"
                     onAction="#onHobbiesClicked"/>
 
-            <Button text="📅  Sessões"
+                <Button text="📅  Sessões"
                     styleClass="sidebar-button"
                     onAction="#onSessionsClicked"/>
 
@@ -39,12 +39,11 @@
                     styleClass="sidebar-button"
                     onAction="#onStatsClicked"/>
 
-            <Button text="⚙️  Definições"
+                <Button text="⚙  Definições"
                     styleClass="sidebar-button"
                     onAction="#onSettingsClicked"/>
 
             <Region VBox.vgrow="ALWAYS"/>
-            <Label text="v0.1 · Draft" styleClass="sidebar-footer"/>
         </VBox>
     </left>
 
@@ -58,19 +57,18 @@
 
             <content>
                 <StackPane fx:id="contentArea" styleClass="content-area">
-                    <VBox alignment="CENTER" spacing="15" styleClass="welcome-card">
-                        <Label text="Bem-vindo ao Gestor de Hobbies"
-                               styleClass="card-title"/>
+                          <VBox alignment="CENTER" spacing="20" styleClass="welcome-card">
+                           <Label text="Bem-vindo ao Gestor de Hobbies" styleClass="hero-title"/>
 
-                        <Label fx:id="lblStatus"
-                               text="Bem-vindo ao Gestor de Hobbies!"
+                           <Label fx:id="lblStatus"
+                               text="Organiza hobbies, regista sessões e acompanha progresso."
                                wrapText="true"
-                               styleClass="card-text"/>
+                               styleClass="hero-subtitle"/>
 
-                        <Button text="Começar a adicionar hobbies"
+                           <Button text="Começar a adicionar hobbies"
                                 styleClass="primary-button"
                                 onAction="#onHobbiesClicked"/>
-                    </VBox>
+                          </VBox>
                 </StackPane>
             </content>
         </ScrollPane>

@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import ui.App;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
@@ -94,6 +95,9 @@ public class StatsController {
             chartTempoPorHobby.setCategoryGap(18);
             chartTempoPorHobby.setBarGap(4);
         }
+
+        // Listen for chart color preference changes
+        App.addChartColorListener(this::applyChartColors);
 
         refresh();
     }
@@ -196,5 +200,41 @@ public class StatsController {
         }
 
         chart.getData().add(series);
+
+        // Apply bar color to each bar after layout
+        javafx.application.Platform.runLater(() -> {
+            String color = App.getChartColor();
+            for (var d : series.getData()) {
+                if (d.getNode() != null) {
+                    d.getNode().setStyle("-fx-bar-fill: " + color + ";");
+                }
+            }
+        });
+    }
+
+    @FXML
+    private void initializeListeners() {
+        // Update chart colors immediately when preference changes
+        App.addChartColorListener(this::applyChartColors);
+    }
+
+    private void applyChartColors() {
+        javafx.application.Platform.runLater(() -> {
+            String color = App.getChartColor();
+            if (chartSessoesPorHobby != null) {
+                for (var series : chartSessoesPorHobby.getData()) {
+                    for (var d : series.getData()) {
+                        if (d.getNode() != null) d.getNode().setStyle("-fx-bar-fill: " + color + ";");
+                    }
+                }
+            }
+            if (chartTempoPorHobby != null) {
+                for (var series : chartTempoPorHobby.getData()) {
+                    for (var d : series.getData()) {
+                        if (d.getNode() != null) d.getNode().setStyle("-fx-bar-fill: " + color + ";");
+                    }
+                }
+            }
+        });
     }
 }

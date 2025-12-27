@@ -50,16 +50,24 @@
     -fx-text-fill: white;
 }
 
+
+/* Red visual for Hobbies button in dark mode */
+
 .content-area {
     -fx-background-color: transparent;
 }
 
 .dialog-card,
-.welcome-card,
 .stat-card {
     -fx-background-color: #111827;
     -fx-border-color: #1f2937;
     -fx-border-width: 1;
+}
+
+/* Make generic content cards subtle in dark mode; charts shouldn't feel boxed */
+.welcome-card {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
 .dialog-title {
@@ -97,6 +105,25 @@
     -fx-background-color: #334155;
     -fx-text-fill: #e5e7eb;
 }
+.combo-box, .combo-box-base, .choice-box {
+    -fx-text-fill: #e5e7eb;
+}
+
+.combo-box .list-cell, .choice-box .label {
+    -fx-text-fill: #e5e7eb;
+}
+
+.combo-box .text, .choice-box .text {
+    -fx-fill: #e5e7eb;
+}
+
+.color-picker, .color-picker .label {
+    -fx-text-fill: #e5e7eb;
+}
+
+.color-picker .color-picker-label .text {
+    -fx-fill: #e5e7eb;
+}
 
 .secondary-button:hover {
     -fx-background-color: #475569;
@@ -113,6 +140,8 @@
 .check-box .box {
     -fx-background-color: #0b1220;
     -fx-border-color: #334155;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
 }
 
 .check-box:selected .mark {
@@ -135,6 +164,25 @@
     -fx-text-fill: #e5e7eb;
 }
 
+/* Ensure table cells render light text in dark mode */
+.table-view .cell,
+.table-cell {
+    -fx-text-fill: #e5e7eb;
+}
+
+.table-view .text {
+    -fx-fill: #e5e7eb;
+}
+
+/* Stronger specificity for common JavaFX table skins */
+.table-view .table-cell .text,
+.table-view .table-row-cell .text,
+.table-view .table-row-cell .label,
+.table-view .table-cell .label {
+    -fx-fill: #e5e7eb;
+    -fx-text-fill: #e5e7eb;
+}
+
 .table-view .column-header-background {
     -fx-background-color: #0b1220;
 }
@@ -144,6 +192,7 @@
     -fx-background-color: #0b1220;
     -fx-border-color: #1f2937;
 }
+
 
 .table-row-cell {
     -fx-background-color: #111827;

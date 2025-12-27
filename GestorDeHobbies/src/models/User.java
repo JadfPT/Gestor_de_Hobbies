@@ -15,6 +15,12 @@ public class User implements Serializable {
     private final List<Hobby> hobbies = new ArrayList<>();
     private final List<Sessao> sessoes = new ArrayList<>();
 
+    // Preferências do utilizador
+    private boolean prefDarkMode = false;
+    private boolean prefUse24HourTime = true;
+    private String prefDateFormat = "yyyy-MM-dd";
+    private String prefChartColor = "#f97316";
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -63,6 +69,19 @@ public class User implements Serializable {
     public void removerSessao(Sessao sessao) {
         sessoes.remove(sessao);
     }
+
+    // Preferências
+    public boolean isPrefDarkMode() { return prefDarkMode; }
+    public void setPrefDarkMode(boolean prefDarkMode) { this.prefDarkMode = prefDarkMode; }
+
+    public boolean isPrefUse24HourTime() { return prefUse24HourTime; }
+    public void setPrefUse24HourTime(boolean prefUse24HourTime) { this.prefUse24HourTime = prefUse24HourTime; }
+
+    public String getPrefDateFormat() { return prefDateFormat; }
+    public void setPrefDateFormat(String prefDateFormat) { this.prefDateFormat = prefDateFormat; }
+
+    public String getPrefChartColor() { return prefChartColor; }
+    public void setPrefChartColor(String prefChartColor) { this.prefChartColor = prefChartColor; }
 
     @Override
     public String toString() {

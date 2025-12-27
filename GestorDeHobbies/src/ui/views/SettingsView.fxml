@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
@@ -15,13 +17,9 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ui.controllers.SettingsController"
-      spacing="18">
+      spacing="18" styleClass="page">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <HBox spacing="10" alignment="CENTER_LEFT">
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="page-header">
         <Label text="Definições" styleClass="card-title"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Label fx:id="lblGlobalMsg" text="" styleClass="card-text"/>
@@ -61,10 +59,9 @@
 
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Button text="Terminar sessão"
-                    styleClass="secondary-button"
-                    onAction="#onLogout"/>
+                styleClass="secondary-button"
+                onAction="#onLogout"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Label text="Zona de perigo:" styleClass="card-text"/>
         </HBox>
 
         <HBox spacing="10" alignment="CENTER_LEFT">
@@ -101,7 +98,23 @@
         <Label text="Preferências da app" styleClass="card-title"/>
 
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <CheckBox fx:id="chkDarkMode" text="Modo escuro" onAction="#onToggleTheme"/>
+            <Label text="Modo escuro" styleClass="card-text"/>
+            <CheckBox fx:id="chkDarkMode" onAction="#onToggleTheme"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Formato de hora" styleClass="card-text"/>
+            <ComboBox fx:id="cmbTimeFormat" promptText="Escolhe..." prefWidth="140"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Formato de data" styleClass="card-text"/>
+            <ComboBox fx:id="cmbDateFormat" promptText="Escolhe..." prefWidth="160"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Cor dos gráficos" styleClass="card-text"/>
+            <ColorPicker fx:id="colorChart"/>
         </HBox>
 
         <Label fx:id="lblThemeMsg" text="" styleClass="card-text"/>

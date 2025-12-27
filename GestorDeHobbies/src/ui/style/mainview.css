@@ -1,3 +1,25 @@
+.check-box.dark-toggle {
+    -fx-text-fill: -gh-text;
+}
+
+.check-box.dark-toggle .box {
+    -fx-background-color: derive(-gh-accent, 92%);
+    -fx-border-color: -gh-accent;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.check-box.dark-toggle:hover .box {
+    -fx-background-color: derive(-gh-accent, 88%);
+}
+
+.check-box.dark-toggle:selected .box {
+    -fx-background-color: derive(-gh-accent, 75%);
+}
+
+.check-box.dark-toggle:selected .mark {
+    -fx-background-color: -gh-accent;
+}
 .top-bar {
     -fx-background-color: -gh-accent;
     -fx-padding: 16 24;
@@ -54,10 +76,32 @@
     -fx-text-fill: #e5e7eb;
 }
 
-.main-content {
+/* Sidebar buttons (used in MainView) — match nav-button styling in light mode */
+.sidebar-button {
     -fx-background-color: transparent;
-    -fx-padding: 24;
+    -fx-text-fill: -gh-text;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 12 10 4; /* align with "Menu" which has left padding 4 */
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
 }
+
+.sidebar-button:hover {
+    -fx-background-color: -gh-surface-2;
+}
+
+.sidebar-button.selected {
+    -fx-background-color: rgba(59,130,246,0.12);
+    -fx-text-fill: -gh-accent;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+.sidebar-button.selected:focused,
+    -fx-background-insets: 0;
 
 .page-title {
     -fx-font-size: 24px;
@@ -75,6 +119,24 @@
     -fx-border-color: rgba(0,0,0,0.0);
     -fx-padding: 18;
     -fx-effect: dropshadow(gaussian, -gh-shadow, 18, 0.12, 0, 4);
+}
+
+/* Dialog cards used in add/edit forms */
+.dialog-card {
+    -fx-background-color: -gh-surface;
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: rgba(0,0,0,0.0);
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, -gh-shadow, 18, 0.12, 0, 4);
+}
+
+.dialog-header {
+    -fx-padding: 0 0 8 0;
+}
+
+.dialog-footer {
+    -fx-padding: 8 0 0 0;
 }
 
 .card-title {
@@ -99,16 +161,46 @@
     -fx-text-fill: -gh-muted;
 }
 
+/* Page layout helpers */
+.page {
+    -fx-padding: 24 28 24 28;
+}
+
+.page-header {
+    -fx-padding: 6 0 18 0; /* remove left/right padding so headers align with content */
+}
+
+/* Smaller but emphasized value for text stats (e.g., top hobby) */
+.stat-value-small {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -gh-text;
+}
+
 .primary-button {
     -fx-background-color: -gh-accent;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 10 16;
-    -fx-background-radius: 16;
+    -fx-background-radius: 8;
 }
 
 .primary-button:hover {
     -fx-background-color: -gh-accent-hover;
+}
+
+/* Secondary buttons (light mode) to harmonize with overall look */
+.secondary-button {
+    -fx-background-color: -gh-surface-2;
+    -fx-text-fill: -gh-text;
+    -fx-padding: 10 16;
+    -fx-background-radius: 16;
+    -fx-border-color: -gh-border;
+    -fx-border-width: 1;
+}
+
+.secondary-button:hover {
+    -fx-background-color: -gh-surface;
 }
 
 .danger-button {
@@ -116,7 +208,7 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 10 16;
-    -fx-background-radius: 16;
+    -fx-background-radius: 8;
 }
 
 .danger-button:hover {
@@ -131,4 +223,46 @@
 .footer-text {
     -fx-text-fill: -gh-muted;
     -fx-font-size: 12px;
+}
+
+/* Hero styles for the welcome view */
+.hero-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -gh-text;
+}
+
+.hero-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: -gh-muted;
+}
+
+/* Checkbox styling (light theme) */
+.check-box {
+    -fx-text-fill: -gh-text;
+}
+
+.check-box .box {
+    -fx-background-color: -gh-surface;
+    -fx-border-color: -gh-border;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
+
+.check-box:hover .box {
+    -fx-border-color: -gh-accent;
+}
+
+.check-box:selected .box {
+    -fx-background-color: derive(-gh-accent, 85%);
+    -fx-border-color: -gh-accent;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: -gh-accent;
+}
+
+/* ColorPicker: hide hex label to avoid visual overlap/flicker */
+.color-picker {
+    -fx-color-label-visible: false;
 }

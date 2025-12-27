@@ -11,16 +11,16 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ui.controllers.HobbiesController"
-      spacing="15">
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ui.controllers.HobbiesController"
+    spacing="15" styleClass="page">
 
-    <HBox spacing="10">
+    <HBox spacing="10" styleClass="page-header">
         <Label text="Hobbies" styleClass="card-title"/>
         <Region HBox.hgrow="ALWAYS"/>
 
         <TextField fx:id="txtPesquisar"
-                   promptText="Procurar hobby..."
+               promptText="Procurar Hobby"
                    styleClass="search-field"/>
 
         <Button fx:id="btnEditar"

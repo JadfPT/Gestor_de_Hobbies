@@ -11,16 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ui.controllers.StatsController"
-      spacing="15">
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ui.controllers.StatsController"
+    spacing="15" styleClass="page">
 
-    <HBox spacing="10">
+    <HBox spacing="10" styleClass="page-header">
         <Label text="Estatísticas" styleClass="card-title"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="lblResumo"
-               text="Resumo das tuas atividades."
-               styleClass="card-text"/>
     </HBox>
 
     <HBox spacing="15" styleClass="stats-row">
@@ -39,7 +36,7 @@
             <Label text="Duração média" styleClass="stat-label"/>
         </VBox>
 
-        <VBox styleClass="stat-card">
+        <VBox styleClass="stat-card" spacing="8">
             <Label fx:id="lblHobbyTop" styleClass="stat-value-small" wrapText="true"/>
             <Label text="Hobby mais usado" styleClass="stat-label"/>
         </VBox>
@@ -49,7 +46,7 @@
         <VBox styleClass="welcome-card" spacing="10" VBox.vgrow="ALWAYS" minWidth="0" HBox.hgrow="ALWAYS">
             <Label text="Sessões por hobby" styleClass="card-title"/>
             <BarChart fx:id="chartSessoesPorHobby"
-                      prefHeight="235" minWidth="0">
+                      prefHeight="300" minWidth="0" VBox.vgrow="ALWAYS">
                 <xAxis>
                     <CategoryAxis label="Hobby"/>
                 </xAxis>
@@ -59,11 +56,11 @@
             </BarChart>
         </VBox>
 
-        <VBox styleClass="welcome-card" spacing="10" prefWidth="360" minWidth="0" HBox.hgrow="ALWAYS">
+        <VBox styleClass="welcome-card" spacing="10" minWidth="0" HBox.hgrow="ALWAYS">
             <Label text="Tempo total por hobby" styleClass="card-title"/>
 
             <BarChart fx:id="chartTempoPorHobby"
-                      prefHeight="140" minWidth="0">
+                      prefHeight="220" minWidth="0" VBox.vgrow="ALWAYS">
                 <xAxis>
                     <CategoryAxis label="Hobby"/>
                 </xAxis>
@@ -71,17 +68,18 @@
                     <NumberAxis label="Minutos"/>
                 </yAxis>
             </BarChart>
-
-            <Label text="Sessões recentes" styleClass="card-title"/>
-
-            <TableView fx:id="tblRecentes" prefHeight="150" minWidth="0">
-                <columns>
-                    <TableColumn fx:id="colHobby" text="Hobby" prefWidth="150"/>
-                    <TableColumn fx:id="colData" text="Data" prefWidth="90"/>
-                    <TableColumn fx:id="colMinutos" text="Min" prefWidth="60"/>
-                </columns>
-            </TableView>
         </VBox>
     </HBox>
+
+    <VBox styleClass="welcome-card" spacing="10">
+        <Label text="Sessões recentes" styleClass="card-title"/>
+        <TableView fx:id="tblRecentes" prefHeight="240" minWidth="0">
+            <columns>
+                <TableColumn fx:id="colHobby" text="Hobby" prefWidth="200"/>
+                <TableColumn fx:id="colData" text="Data" prefWidth="120"/>
+                <TableColumn fx:id="colMinutos" text="Min" prefWidth="80"/>
+            </columns>
+        </TableView>
+    </VBox>
 
 </VBox>

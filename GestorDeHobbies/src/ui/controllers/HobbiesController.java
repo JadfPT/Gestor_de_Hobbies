@@ -3,6 +3,7 @@ package ui.controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ui.App;
 import models.Categoria;
 import models.Hobby;
 import services.AppState;
@@ -41,6 +43,7 @@ public class HobbiesController {
     private Button btnApagar;
 
     private final ObservableList<Hobby> dados = FXCollections.observableArrayList();
+    private FilteredList<Hobby> filtrado;
 
     @FXML
     private void initialize() {
@@ -53,7 +56,22 @@ public class HobbiesController {
             dados.setAll(user.getHobbies());
         }
 
-        tblHobbies.setItems(dados);
+        filtrado = new FilteredList<>(dados, h -> true);
+        tblHobbies.setItems(filtrado);
+
+        // Pesquisa por nome, descrição ou categoria
+        if (txtPesquisar != null) {
+            txtPesquisar.textProperty().addListener((obs, oldV, newV) -> {
+                String q = newV == null ? "" : newV.trim().toLowerCase();
+                filtrado.setPredicate(h -> {
+                    if (q.isEmpty()) return true;
+                    boolean nome = h.getNome() != null && h.getNome().toLowerCase().contains(q);
+                    boolean desc = h.getDescricao() != null && h.getDescricao().toLowerCase().contains(q);
+                    boolean cat = h.getCategoria() != null && h.getCategoria().name().toLowerCase().contains(q);
+                    return nome || desc || cat;
+                });
+            });
+        }
 
         btnEditar.setDisable(true);
         btnApagar.setDisable(true);
@@ -118,6 +136,7 @@ public class HobbiesController {
             dialog.setTitle(aEditar == null ? "Novo hobby" : "Editar hobby");
             dialog.setScene(new Scene(root));
             dialog.setResizable(false);
+            if (App.getAppIcon() != null) dialog.getIcons().add(App.getAppIcon());
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

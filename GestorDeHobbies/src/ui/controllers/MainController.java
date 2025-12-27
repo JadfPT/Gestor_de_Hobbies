@@ -27,22 +27,22 @@ public class MainController {
     }
 
     @FXML
-    private void onHobbiesClicked() {
+    public void onHobbiesClicked() {
         loadView("HobbiesView.fxml");
     }
 
     @FXML
-    private void onSessionsClicked() {
+    public void onSessionsClicked() {
         loadView("SessionsView.fxml");
     }
 
     @FXML
-    private void onStatsClicked() {
+    public void onStatsClicked() {
         loadView("StatsView.fxml");
     }
 
     @FXML
-    private void onSettingsClicked() {
+    public void onSettingsClicked() {
         loadView("SettingsView.fxml");
     }
 
@@ -52,8 +52,6 @@ public class MainController {
             contentArea.getChildren().setAll(view);
 
             if (contentScroll != null) {
-                boolean isStats = "StatsView.fxml".equals(fxmlName);
-
                 contentScroll.setFitToWidth(true);
                 contentScroll.setFitToHeight(false);
                 contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);

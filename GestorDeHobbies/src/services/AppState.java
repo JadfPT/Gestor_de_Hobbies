@@ -28,6 +28,15 @@ public class AppState {
         User u = dados.getUser(username);
         if (u != null && u.getPassword().equals(password)) {
             currentUser = u;
+            // Aplicar preferências guardadas do utilizador
+            try {
+                ui.App.setDarkModeEnabled(u.isPrefDarkMode());
+                ui.App.setUse24HourTime(u.isPrefUse24HourTime());
+                String fmt = (u.getPrefDateFormat() != null && !u.getPrefDateFormat().isBlank()) ? u.getPrefDateFormat() : ui.App.getDateFormatPattern();
+                ui.App.setDateFormatPattern(fmt);
+                String color = (u.getPrefChartColor() != null && !u.getPrefChartColor().isBlank()) ? u.getPrefChartColor() : ui.App.getChartColor();
+                ui.App.setChartColor(color);
+            } catch (Exception ignored) {}
             return true;
         }
         return false;
@@ -44,6 +53,12 @@ public boolean registar(String username, String password) {
     // for (Hobby h : PredefinedHobbies.getDefaults()) {
     //     u.adicionarHobby(h);
     // }
+
+    // Inicializar preferências com as atuais da app
+    u.setPrefDarkMode(ui.App.isDarkModeEnabled());
+    u.setPrefUse24HourTime(ui.App.isUse24HourTime());
+    u.setPrefDateFormat(ui.App.getDateFormatPattern());
+    u.setPrefChartColor(ui.App.getChartColor());
 
     dados.addUser(u);
     currentUser = u;
