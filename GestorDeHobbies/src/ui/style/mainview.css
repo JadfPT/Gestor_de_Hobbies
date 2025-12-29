@@ -123,8 +123,9 @@
     -fx-background-insets: 0;
 }
 
-.sidebar-button.selected:focused,
+.sidebar-button.selected:focused {
     -fx-background-insets: 0;
+}
 
 /* Bloco 6: Título de página
    Texto grande e bold para hierarquia visual */
