@@ -1,3 +1,9 @@
+/*
+ * Propósito geral: controlar o ecrã de registo de novos utilizadores, validando
+ * dados e criando a conta através do AppState.
+ * Observações: valida campos vazios, confirma que as passwords coincidem, evita
+ * usernames duplicados; mostra mensagens inline no ecrã.
+ */
 package ui.controllers;
 
 import javafx.fxml.FXML;
@@ -23,24 +29,29 @@ public class RegisterController {
     @FXML
     private Label lblMensagem;
 
+    // Valida dados e cria uma nova conta
     @FXML
     private void onCreateAccount() {
         String user = txtUsername.getText().trim();
         String pass = txtPassword.getText();
         String confirm = txtConfirm.getText();
 
+        // Valida campos obrigatórios
         if (user.isEmpty() || pass.isEmpty() || confirm.isEmpty()) {
             lblMensagem.setText("Preenche todos os campos.");
             return;
         }
 
+        // Valida que as passwords coincidem
         if (!pass.equals(confirm)) {
             lblMensagem.setText("As passwords não coincidem.");
             return;
         }
 
+        // Tenta criar a conta através do AppState
         boolean ok = AppState.getInstance().registar(user, pass);
         if (!ok) {
+            // Utilizador já existe
             lblMensagem.setText("Já existe um utilizador com esse nome.");
             return;
         }
@@ -48,6 +59,7 @@ public class RegisterController {
         lblMensagem.setText("Conta criada com sucesso! A entrar...");
 
         try {
+            // Navega para a aplicação principal
             App.setRoot("views/MainView.fxml");
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,6 +67,7 @@ public class RegisterController {
         }
     }
 
+    // Volta ao ecrã de login
     @FXML
     private void onBackToLogin() {
         try {

@@ -1,3 +1,12 @@
+/*
+ * Propósito geral: estilizar as páginas de autenticação (login e registo) com
+ * layout de dois painéis, um com o formulário e outro com branding/gradiente.
+ * Observações: usa variáveis CSS customizadas (-gh-*) para cores e temas;
+ * suporta tema escuro com seletor .root.dark; painéis com cantos arredondados
+ * e efeitos de sombra no foco.
+ */
+
+/* Contentor principal do card de autenticação */
 .auth-card {
     -fx-background-color: transparent;
     -fx-alignment: CENTER;
@@ -6,11 +15,13 @@
     -fx-padding: 0 40 0 40;
 }
 
+/* Estilos comuns para os painéis esquerdo e direito */
 .auth-left, .auth-right {
     -fx-padding: 40 40 40 40;
     -fx-spacing: 16;
 }
 
+/* Painel esquerdo: formulário de login/registo */
 .auth-left {
     -fx-background-color: -gh-surface;
     -fx-background-radius: 24 0 0 24;
@@ -20,6 +31,7 @@
     -fx-border-radius: 24 0 0 24;
 }
 
+/* Painel direito: branding com gradiente */
 .auth-right {
     -fx-background-color: linear-gradient(to bottom right, #2a73cc, #55a6ff);
     -fx-background-radius: 0 24 24 0;
@@ -28,32 +40,38 @@
     -fx-spacing: 16;
 }
 
+/* Gradiente do painel direito em modo escuro */
 .root.dark .auth-right {
     -fx-background-color: linear-gradient(to bottom right, #0b244a, #1f3a8a);
 }
 
+/* Título da aplicação (ex: "Gestor de Hobbies") */
 .auth-app-title {
     -fx-font-size: 16;
     -fx-font-weight: bold;
     -fx-text-fill: -gh-text;
 }
 
+/* Título principal do formulário (ex: "Login" ou "Registo") */
 .auth-title {
     -fx-font-size: 20;
     -fx-font-weight: bold;
     -fx-text-fill: -gh-text;
 }
 
+/* Subtítulo ou descrição breve */
 .auth-subtitle {
     -fx-font-size: 12;
     -fx-text-fill: -gh-muted;
 }
 
+/* Etiqueta dos campos de entrada */
 .field-label {
     -fx-font-size: 11;
     -fx-text-fill: -gh-muted;
 }
 
+/* Estilos base para campos de entrada (TextField, PasswordField) */
 .field-input {
     -fx-background-radius: 10;
     -fx-border-radius: 10;
@@ -64,37 +82,44 @@
     -fx-prompt-text-fill: -gh-muted;
 }
 
+/* Estado focado do campo: borda acentuada e sombra */
 .field-input:focused {
     -fx-border-color: -gh-accent;
     -fx-background-color: -gh-surface;
     -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.28), 8, 0, 0, 0);
 }
 
+/* Mensagens de erro no formulário */
 .auth-message {
     -fx-font-size: 11;
     -fx-text-fill: -gh-danger;
 }
 
+/* Títulos no painel direito (branding) */
 .auth-right-title {
     -fx-text-fill: white;
     -fx-font-size: 14;
     -fx-font-weight: bold;
 }
 
+/* Texto informativo no painel direito */
 .auth-right-text {
     -fx-text-fill: rgba(255,255,255,0.85);
     -fx-font-size: 12;
 }
 
+/* Rodapé do painel direito */
 .auth-right-footer {
     -fx-text-fill: rgba(255,255,255,0.75);
     -fx-font-size: 11;
 }
 
+/* Linha contendo o botão de voltar atrás */
 .back-row {
     -fx-alignment: CENTER_LEFT;
 }
 
+/* Botão para voltar (ex: "Voltar ao login") */
 .back-button {
     -fx-background-color: transparent;
     -fx-text-fill: -gh-muted;
@@ -104,10 +129,12 @@
     -fx-cursor: hand;
 }
 
+/* Estado hover do botão voltar */
 .back-button:hover {
     -fx-background-color: -gh-surface-2;
 }
 
+/* Etiqueta do botão voltar */
 .back-label {
     -fx-font-size: 11;
     -fx-text-fill: -gh-muted;

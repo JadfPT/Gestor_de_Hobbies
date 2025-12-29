@@ -1,3 +1,22 @@
+/*
+ * Propósito geral: arquivo de entrada única para estilo da aplicação, agregando
+ * todos os ficheiros CSS necessários para tema, vistas e autenticação.
+ * Observações: esta é a única folha de estilos carregada pela aplicação;
+ * funciona como ponto centralizado de importação; não contém regras CSS diretas,
+ * apenas imports; garante carregamento ordenado e coeso de todos os estilos.
+ */
+
+/* Bloco 1: Importação de base.css
+   Define sistema de variáveis CSS (-gh-*), tema light/dark e estilos base
+   para componentes comuns (TextField, TableView, Charts, etc.) */
 @import "base.css";
+
+/* Bloco 2: Importação de mainview.css
+   Estilos específicos para layout principal da aplicação (MainView):
+   top-bar, sidebar, content-area, cards, diálogos, etc. */
 @import "mainview.css";
+
+/* Bloco 3: Importação de auth.css
+   Estilos para páginas de autenticação (LoginView, RegisterView):
+   layout dois-painel, formulários, botões, mensagens de erro, etc. */
 @import "auth.css";

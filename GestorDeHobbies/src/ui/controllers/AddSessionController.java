@@ -1,3 +1,9 @@
+/*
+ * Propósito geral: gerir o formulário de criação/edição de sessões de hobby,
+ * validando datas/horas e comunicando as alterações ao controlador de sessões.
+ * Observações: suporta modo edição (sessaoExistente), calcula a duração a partir
+ * de data/hora de início e fim, e mostra mensagens de validação no formulário.
+ */
 package ui.controllers;
 
 import javafx.collections.FXCollections;
@@ -42,13 +48,17 @@ public class AddSessionController {
     @FXML
     private Label lblSubtitulo;
 
+    // Referência ao controlador pai para callbacks
     private SessionsController sessionsController;
+    // Quando não nulo, o formulário está a editar uma sessão existente
     private Sessao sessaoExistente;
 
+    // Injeção do controlador pai
     public void setSessionsController(SessionsController controller) {
         this.sessionsController = controller;
     }
 
+    // Preenche o formulário com dados para edição de uma sessão
     public void setSessaoExistente(Sessao sessao) {
         this.sessaoExistente = sessao;
         if (sessao != null) {
@@ -68,6 +78,7 @@ public class AddSessionController {
         }
     }
 
+    // Inicializa listas de hobbies e textos padrão
     @FXML
     private void initialize() {
         var user = AppState.getInstance().getCurrentUser();
@@ -86,6 +97,7 @@ public class AddSessionController {
         }
     }
 
+    // Valida dados, calcula duração e cria/atualiza a sessão
     @FXML
     private void onGuardar() {
         Hobby hobby = cmbHobby.getValue();
@@ -149,16 +161,19 @@ public class AddSessionController {
         fechar();
     }
 
+    // Fecha sem guardar
     @FXML
     private void onCancelar() {
         fechar();
     }
 
+    // Encapsula fecho da janela atual
     private void fechar() {
         Stage stage = (Stage) cmbHobby.getScene().getWindow();
         stage.close();
     }
 
+    // Formata LocalTime para HH:MM
     private String formatHora(LocalTime t) {
         return String.format("%02d:%02d", t.getHour(), t.getMinute());
     }

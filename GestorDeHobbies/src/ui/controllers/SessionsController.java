@@ -1,3 +1,11 @@
+/*
+ * Propósito geral: gerir a lista de sessões do utilizador, permitindo criar,
+ * editar, apagar e filtrar entradas, com formatação de datas/horas conforme
+ * preferências globais.
+ * Observações: usa FilteredList para pesquisa reativa; formatação dinâmica de
+ * data/hora respeitando preferências do utilizador; dialogs modais notificam
+ * via callbacks; persiste após alterações.
+ */
 package ui.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -50,11 +58,14 @@ public class SessionsController {
     @FXML
     private Button btnApagar;
 
+    // Dados base e versão filtrada
     private final ObservableList<Sessao> dados = FXCollections.observableArrayList();
     private FilteredList<Sessao> filtrado;
 
+    // Configura colunas, carrega dados, formata data/hora e ativa pesquisa
     @FXML
     private void initialize() {
+        // Vincula colunas aos atributos das sessões
         colHobby.setCellValueFactory(cell ->
                 new SimpleStringProperty(cell.getValue().getHobby().getNome()));
         colData.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -62,6 +73,7 @@ public class SessionsController {
         colDuracao.setCellValueFactory(new PropertyValueFactory<>("duracaoMinutos"));
         colNotas.setCellValueFactory(new PropertyValueFactory<>("notas"));
 
+        // Carrega sessões do utilizador
         var user = AppState.getInstance().getCurrentUser();
         if (user != null) {
             dados.setAll(user.getSessoes());
@@ -70,7 +82,7 @@ public class SessionsController {
         filtrado = new FilteredList<>(dados, s -> true);
         tblSessoes.setItems(filtrado);
 
-        // Apply formatting for date/time columns based on app preferences
+        // Aplica formatação de datas conforme preferência da app
         if (colData != null) {
             colData.setCellFactory(col -> new TableCell<>() {
                 @Override
@@ -85,6 +97,8 @@ public class SessionsController {
                 }
             });
         }
+
+        // Aplica formatação de horas (12h/24h) conforme preferência da app
         if (colHora != null) {
             colHora.setCellFactory(col -> new TableCell<>() {
                 @Override
@@ -104,6 +118,7 @@ public class SessionsController {
         btnEditar.setDisable(true);
         btnApagar.setDisable(true);
 
+        // Habilita botões apenas se houver seleção
         tblSessoes.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             boolean has = newSel != null;
             btnEditar.setDisable(!has);
@@ -125,11 +140,13 @@ public class SessionsController {
         }
     }
 
+    // Abre diálogo para criar uma nova sessão
     @FXML
     private void onNovaSessao() {
         abrirDialogSessao(null);
     }
 
+    // Abre diálogo para editar a sessão selecionada
     @FXML
     private void onEditarSessao() {
         Sessao selecionada = tblSessoes.getSelectionModel().getSelectedItem();
@@ -138,6 +155,7 @@ public class SessionsController {
         }
     }
 
+    // Pede confirmação e remove a sessão selecionada
     @FXML
     private void onApagarSessao() {
         Sessao selecionada = tblSessoes.getSelectionModel().getSelectedItem();
@@ -160,6 +178,7 @@ public class SessionsController {
         }
     }
 
+    // Carrega o diálogo de sessão, injeta callbacks e mostra modal
     private void abrirDialogSessao(Sessao aEditar) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/views/AddSessionView.fxml"));
@@ -184,6 +203,7 @@ public class SessionsController {
         }
     }
 
+    // Callback quando uma nova sessão é criada
     public void adicionarSessao(Sessao sessao) {
         dados.add(sessao);
         var user = AppState.getInstance().getCurrentUser();
@@ -193,6 +213,7 @@ public class SessionsController {
         }
     }
 
+    // Callback após edição: refresca tabela e persiste
     public void sessaoAtualizada() {
         tblSessoes.refresh();
         var user = AppState.getInstance().getCurrentUser();
@@ -201,3 +222,4 @@ public class SessionsController {
         }
     }
 }
+

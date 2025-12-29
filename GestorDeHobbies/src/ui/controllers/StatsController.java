@@ -1,3 +1,10 @@
+/*
+ * Propósito geral: apresentar estatísticas e gráficos sobre as atividades do
+ * utilizador (sessões, tempo por hobby, hobby principal), com tabela de sessões
+ * recentes e cores dinâmicas conforme preferências.
+ * Observações: calcula agregações (contagens, somas, médias); gráficos limitem a
+ * 8 hobbies; tabela mostra últimas 7 sessões; cores atualizam reativmente.
+ */
 package ui.controllers;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -55,8 +62,10 @@ public class StatsController {
     @FXML
     private TableColumn<Sessao, Integer> colMinutos;
 
+    // Configura colunas, gráficos e ativa listeners
     @FXML
     private void initialize() {
+        // Vincula coluna hobby a SimpleStringProperty extraída de Sessao
         if (colHobby != null) {
             colHobby.setCellValueFactory(cell -> {
                 Sessao s = cell.getValue();
@@ -67,6 +76,7 @@ public class StatsController {
             });
         }
 
+        // Vincula coluna data
         if (colData != null) {
             colData.setCellValueFactory(cell -> {
                 Sessao s = cell.getValue();
@@ -74,6 +84,7 @@ public class StatsController {
             });
         }
 
+        // Vincula coluna minutos
         if (colMinutos != null) {
             colMinutos.setCellValueFactory(cell -> {
                 Sessao s = cell.getValue();
@@ -82,6 +93,7 @@ public class StatsController {
             });
         }
 
+        // Configura gráfico de sessões por hobby
         if (chartSessoesPorHobby != null) {
             chartSessoesPorHobby.setLegendVisible(false);
             chartSessoesPorHobby.setAnimated(false);
@@ -89,6 +101,7 @@ public class StatsController {
             chartSessoesPorHobby.setBarGap(4);
         }
 
+        // Configura gráfico de tempo por hobby
         if (chartTempoPorHobby != null) {
             chartTempoPorHobby.setLegendVisible(false);
             chartTempoPorHobby.setAnimated(false);
@@ -96,12 +109,13 @@ public class StatsController {
             chartTempoPorHobby.setBarGap(4);
         }
 
-        // Listen for chart color preference changes
+        // Escuta mudanças de cor dos gráficos
         App.addChartColorListener(this::applyChartColors);
 
         refresh();
     }
 
+    // Recalcula todas as estatísticas e atualiza a UI
     public void refresh() {
         var user = AppState.getInstance().getCurrentUser();
         if (user == null) {
@@ -114,9 +128,11 @@ public class StatsController {
         int totalSessoes = sessoes.size();
         int totalMinutos = 0;
 
+        // Agregações por hobby
         Map<String, Integer> countByHobby = new LinkedHashMap<>();
         Map<String, Integer> minutesByHobby = new LinkedHashMap<>();
 
+        // Calcula totais e agregações
         for (Sessao s : sessoes) {
             int dur = (s != null) ? s.getDuracaoMinutos() : 0;
             totalMinutos += Math.max(0, dur);
@@ -129,8 +145,10 @@ public class StatsController {
             minutesByHobby.put(hobby, minutesByHobby.getOrDefault(hobby, 0) + Math.max(0, dur));
         }
 
+        // Calcula duração média
         int duracaoMedia = totalSessoes == 0 ? 0 : (int) Math.round((double) totalMinutos / totalSessoes);
 
+        // Encontra hobby com mais sessões (desempate por minutos, depois alfabético)
         String hobbyTop = "—";
         if (!countByHobby.isEmpty()) {
             hobbyTop = countByHobby.entrySet().stream()
@@ -147,6 +165,7 @@ public class StatsController {
                     .orElse("—");
         }
 
+        // Atualiza labels
         if (lblResumo != null) {
             lblResumo.setText(totalSessoes == 0 ? "Ainda não tens sessões registadas." : "Resumo das tuas atividades.");
         }
@@ -155,9 +174,11 @@ public class StatsController {
         if (lblDuracaoMedia != null) lblDuracaoMedia.setText(String.valueOf(duracaoMedia));
         if (lblHobbyTop != null) lblHobbyTop.setText(hobbyTop);
 
+        // Preenche gráficos (limitado a 8 hobbies)
         fillChart(chartSessoesPorHobby, sortAndLimit(countByHobby, 8), "Sessões");
         fillChart(chartTempoPorHobby, sortAndLimit(minutesByHobby, 8), "Minutos");
 
+        // Preenche tabela com últimas 7 sessões, ordenadas por data/hora descendente
         if (tblRecentes != null) {
             sessoes.sort(Comparator
                     .comparing(Sessao::getData, Comparator.nullsLast(Comparator.naturalOrder()))
@@ -169,6 +190,7 @@ public class StatsController {
         }
     }
 
+    // Limpa a UI quando não há utilizador
     private void setEmptyUI() {
         if (lblResumo != null) lblResumo.setText("Sem sessão ativa.");
         if (lblTotalSessoes != null) lblTotalSessoes.setText("0");
@@ -180,6 +202,7 @@ public class StatsController {
         if (tblRecentes != null) tblRecentes.getItems().clear();
     }
 
+    // Ordena por valor descendente e limita o número de entradas
     private Map<String, Integer> sortAndLimit(Map<String, Integer> in, int limit) {
         return in.entrySet().stream()
                 .sorted((a, b) -> Integer.compare(b.getValue(), a.getValue()))
@@ -187,21 +210,30 @@ public class StatsController {
                 .collect(LinkedHashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), LinkedHashMap::putAll);
     }
 
+    // Preenche um gráfico com dados, aplicando cores dinâmicas
     private void fillChart(BarChart<String, Number> chart, Map<String, Integer> data, String seriesName) {
+        /* Bloco 1: Validação e limpeza do gráfico */
         if (chart == null) return;
-
         chart.getData().clear();
 
+        /* Bloco 2: Criação de série com dados
+           Series encapsula nome e lista de data points (String -> Number) */
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName(seriesName);
 
+        /* Bloco 3: Preenchimento da série com pares chave-valor
+           Cada entry no mapa torna-se um Data point no gráfico */
         for (var e : data.entrySet()) {
             series.getData().add(new XYChart.Data<>(e.getKey(), e.getValue()));
         }
 
+        /* Bloco 4: Adição da série ao gráfico */
         chart.getData().add(series);
 
-        // Apply bar color to each bar after layout
+        /* Bloco 5: Aplicação de cores após layout estar pronto
+           Platform.runLater garante que nós gráficos já foram criados
+           Obtém cor preferida do utilizador e aplica a cada barra via CSS inline */
+        // Aplica cor a cada barra após layout estar pronto
         javafx.application.Platform.runLater(() -> {
             String color = App.getChartColor();
             for (var d : series.getData()) {
@@ -212,15 +244,24 @@ public class StatsController {
         });
     }
 
+    // Registro de listeners (pode estar duplicado com initialize)
     @FXML
     private void initializeListeners() {
-        // Update chart colors immediately when preference changes
+        /* Bloco: Ativa listener para mudanças de preferência de cor
+           Quando aplicação notifica mudança de cor, reaplica cores aos gráficos */
+        // Atualiza cores dos gráficos quando preferência muda
         App.addChartColorListener(this::applyChartColors);
     }
 
+    // Reaplica as cores dos gráficos
     private void applyChartColors() {
+        /* Bloco: Atualização reativa de cores em ambos os gráficos
+           Executado via Platform.runLater para sincronização com thread UI
+           Para cada gráfico: itera séries > itera data points > aplica color via CSS inline */
         javafx.application.Platform.runLater(() -> {
             String color = App.getChartColor();
+            
+            // Atualiza cores do gráfico de sessões
             if (chartSessoesPorHobby != null) {
                 for (var series : chartSessoesPorHobby.getData()) {
                     for (var d : series.getData()) {
@@ -228,6 +269,8 @@ public class StatsController {
                     }
                 }
             }
+            
+            // Atualiza cores do gráfico de tempo
             if (chartTempoPorHobby != null) {
                 for (var series : chartTempoPorHobby.getData()) {
                     for (var d : series.getData()) {

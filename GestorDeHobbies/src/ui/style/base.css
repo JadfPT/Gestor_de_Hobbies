@@ -1,53 +1,77 @@
+/*
+ * Propósito geral: definir variáveis CSS customizadas (-gh-*) para cores,
+ * tipografia e estilos base da aplicação, com suporte a tema claro e escuro.
+ * Observações: usa seletor .root.dark para tema escuro; todas as cores, fontes
+ * e componentes comuns herdam deste ficheiro; permite consistência visual
+ * e fácil personalização de temas.
+ */
+
+/* Variáveis CSS do tema claro */
 .root {
+    /* Cores de fundo e superfícies */
     -gh-bg: #eef3fb;
     -gh-surface: #ffffff;
     -gh-surface-2: #f3f6fb;
 
+    /* Cores de texto */
     -gh-text: #0f172a;
     -gh-muted: #64748b;
 
+    /* Cores de bordas e sombras */
     -gh-border: rgba(15, 23, 42, 0.10);
     -gh-shadow: rgba(15, 23, 42, 0.18);
 
+    /* Cores de destaque (acentos e estados) */
     -gh-accent: #3b82f6;
     -gh-accent-hover: #2563eb;
 
+    /* Cores de perigo e erro */
     -gh-danger: #ef4444;
     -gh-danger-hover: #dc2626;
 
+    /* Tipografia global */
     -fx-font-family: "Segoe UI", "Inter", "Roboto", sans-serif;
     -fx-background-color: -gh-bg;
 }
 
+/* Variáveis CSS do tema escuro (aplicadas com .root.dark) */
 .root.dark {
+    /* Cores de fundo e superfícies mais escuras */
     -gh-bg: #0b1220;
     -gh-surface: #111827;
     -gh-surface-2: #0f172a;
 
+    /* Cores de texto em tema escuro */
     -gh-text: #e5e7eb;
     -gh-muted: #94a3b8;
 
+    /* Cores de bordas e sombras com transparência aumentada */
     -gh-border: rgba(148, 163, 184, 0.18);
     -gh-shadow: rgba(0, 0, 0, 0.55);
 
+    /* Cores de destaque adaptadas para escuro */
     -gh-accent: #60a5fa;
     -gh-accent-hover: #3b82f6;
 
+    /* Cores de perigo em tema escuro */
     -gh-danger: #f87171;
     -gh-danger-hover: #ef4444;
 
     -fx-background-color: -gh-bg;
 }
 
+/* Classe utilitária para texto com cor silenciada */
 .text-muted {
     -fx-text-fill: -gh-muted;
 }
 
+/* Classe utilitária para títulos */
 .text-title {
     -fx-text-fill: -gh-text;
     -fx-font-weight: bold;
 }
 
+/* Estilos base para campos de entrada (TextFields, ComboBox, DatePicker, etc.) */
 .text-field, .password-field, .combo-box-base, .date-picker, .spinner, .choice-box {
     -fx-background-color: -gh-surface;
     -fx-text-fill: -gh-text;
@@ -59,6 +83,7 @@
     -fx-padding: 8 10;
 }
 
+/* Variante em tema escuro: fundo semi-transparente e bordas mais claras */
 .root.dark .text-field,
 .root.dark .password-field,
 .root.dark .combo-box-base,
@@ -69,18 +94,22 @@
     -fx-border-color: rgba(255,255,255,0.14);
 }
 
+/* Estilos para labels (etiquetas de texto) */
 .label {
     -fx-text-fill: -gh-text;
 }
 
+/* Labels em tema escuro */
 .root.dark .label {
     -fx-text-fill: -gh-text;
 }
 
+/* Linha de separação visual */
 .separator .line {
     -fx-border-color: -gh-border;
 }
 
+/* Estilos para tabelas: fundo, bordas arredondadas, borda sutil */
 .table-view {
     -fx-background-color: -gh-surface;
     -fx-background-radius: 14;
@@ -89,64 +118,78 @@
     -fx-border-width: 1;
 }
 
+/* Fundo do cabeçalho da tabela com cantos arredondados superiores */
 .table-view .column-header-background {
     -fx-background-color: -gh-surface-2;
     -fx-background-radius: 14 14 0 0;
 }
 
+/* Cabeçalhos de coluna e preenchedor sem bordas visíveis */
 .table-view .column-header, .table-view .filler {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
+/* Texto dos cabeçalhos em cor silenciada e negrito */
 .table-view .column-header .label {
     -fx-text-fill: -gh-muted;
     -fx-font-weight: bold;
 }
 
+/* Linhas da tabela com fundo transparente */
 .table-row-cell {
     -fx-background-color: transparent;
     -fx-text-fill: -gh-text;
 }
 
+/* Linha selecionada: fundo com cor de acentuação clarificada */
 .table-row-cell:filled:selected, .table-row-cell:filled:selected:hover {
     -fx-background-color: derive(-gh-accent, 80%);
 }
 
+/* Linha selecionada em tema escuro com cor de acentuação semi-transparente */
 .root.dark .table-row-cell:filled:selected,
 .root.dark .table-row-cell:filled:selected:hover {
     -fx-background-color: rgba(96,165,250,0.18);
 }
 
+/* ScrollPane com fundo transparente */
 .scroll-pane {
     -fx-background-color: transparent;
 }
 
+/* Viewport do ScrollPane também transparente */
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
 
+/* Gráficos com fundo transparente */
 .chart {
     -fx-background-color: transparent;
 }
 
+/* Fundo do gráfico (área de plotagem) com efeito sutil */
 .chart-plot-background {
     -fx-background-color: rgba(0,0,0,0.03);
     -fx-background-radius: 12;
 }
 
+/* Fundo em gráficos em tema escuro */
 .root.dark .chart-plot-background {
     -fx-background-color: rgba(255,255,255,0.06);
 }
 
+/* Legenda do gráfico com fundo transparente */
 .chart-legend {
     -fx-background-color: transparent;
 }
 
+/* Rótulos, marcas de tick e marcas de tick menores em gráficos */
 .axis-label, .axis-tick-mark, .axis-minor-tick-mark {
     -fx-stroke: -gh-muted;
 }
 
+/* Eixos do gráfico */
 .axis {
     -fx-tick-label-fill: -gh-muted;
 }

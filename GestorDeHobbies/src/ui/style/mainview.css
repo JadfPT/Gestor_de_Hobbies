@@ -1,3 +1,13 @@
+/*
+ * Propósito geral: definir estilos específicos da vista principal (MainView)
+ * incluindo top-bar, sidebar, navegação, cards, diálogos e componentes de interface.
+ * Observações: trabalha em conjunto com base.css para variáveis CSS (-gh-*);
+ * utiliza tema light por padrão, com overrides para tema dark em seletores específicos;
+ * define layout e componentes da vista principal (cards, botões, tabelas, etc.).
+ */
+
+/* Bloco 1: Checkbox para toggle de tema escuro
+   Estilo customizado com caixa arredondada e cores dinâmicas baseadas em -gh-accent */
 .check-box.dark-toggle {
     -fx-text-fill: -gh-text;
 }
@@ -20,23 +30,30 @@
 .check-box.dark-toggle:selected .mark {
     -fx-background-color: -gh-accent;
 }
+
+/* Bloco 2: Barra superior (top-bar)
+   Background azul/accent; padding generoso; sombra projectada para profundidade */
 .top-bar {
     -fx-background-color: -gh-accent;
     -fx-padding: 16 24;
     -fx-effect: dropshadow(gaussian, -gh-shadow, 18, 0.12, 0, 3);
 }
 
+/* Título da aplicação na barra superior em branco e bold */
 .app-title {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
 
+/* Informações do utilizador com opacidade ligeira */
 .user-info {
     -fx-text-fill: rgba(255,255,255,0.85);
     -fx-font-size: 14px;
 }
 
+/* Bloco 3: Barra lateral (sidebar)
+   Fundo superfície (surface); borda direita; padding */
 .sidebar {
     -fx-background-color: -gh-surface;
     -fx-padding: 20 16;
@@ -44,6 +61,7 @@
     -fx-border-width: 0 1 0 0;
 }
 
+/* Título da secção na sidebar */
 .sidebar-title {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
@@ -51,6 +69,8 @@
     -fx-padding: 0 0 12 4;
 }
 
+/* Bloco 4: Botões de navegação (nav-button)
+   Fundo transparente por padrão; hover com surface-2; selected com cor accent */
 .nav-button {
     -fx-background-color: transparent;
     -fx-text-fill: -gh-text;
@@ -71,11 +91,14 @@
     -fx-font-weight: bold;
 }
 
+/* Override para tema escuro: seleção com fundo semi-transparente azul */
 .root.dark .nav-button.selected {
     -fx-background-color: rgba(96,165,250,0.18);
     -fx-text-fill: #e5e7eb;
 }
 
+/* Bloco 5: Botões da sidebar (sidebar-button)
+   Mesmo estilo que nav-button mas com padding ajustado para alinhamento */
 /* Sidebar buttons (used in MainView) — match nav-button styling in light mode */
 .sidebar-button {
     -fx-background-color: transparent;
@@ -103,6 +126,8 @@
 .sidebar-button.selected:focused,
     -fx-background-insets: 0;
 
+/* Bloco 6: Título de página
+   Texto grande e bold para hierarquia visual */
 .page-title {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
@@ -110,6 +135,8 @@
     -fx-padding: 0 0 12 0;
 }
 
+/* Bloco 7: Cards genéricos (white-panel, content-card, stat-card)
+   Fundo superfície; cantos arredondados; sombra para profundidade; padding */
 .white-panel,
 .content-card,
 .stat-card {
@@ -121,6 +148,8 @@
     -fx-effect: dropshadow(gaussian, -gh-shadow, 18, 0.12, 0, 4);
 }
 
+/* Bloco 8: Cards de diálogo (dialog-card)
+   Usado em formulários de adição/edição; estilo similar aos cards principais */
 /* Dialog cards used in add/edit forms */
 .dialog-card {
     -fx-background-color: -gh-surface;
@@ -131,14 +160,19 @@
     -fx-effect: dropshadow(gaussian, -gh-shadow, 18, 0.12, 0, 4);
 }
 
+/* Espaçamento do cabeçalho do diálogo */
 .dialog-header {
     -fx-padding: 0 0 8 0;
 }
 
+/* Espaçamento do rodapé do diálogo */
 .dialog-footer {
     -fx-padding: 8 0 0 0;
 }
 
+/* Bloco 9: Títulos e subtítulos de cards
+   card-title: texto grande e bold
+   card-subtitle: texto menor e silenciado */
 .card-title {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
@@ -150,6 +184,9 @@
     -fx-text-fill: -gh-muted;
 }
 
+/* Bloco 10: Valores e rótulos de estatísticas
+   stat-value: número grande (ex: total sessões)
+   stat-label: etiqueta descritiva abaixo do valor */
 .stat-value {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
@@ -161,6 +198,9 @@
     -fx-text-fill: -gh-muted;
 }
 
+/* Bloco 11: Helpers de layout de página
+   page: padding geral
+   page-header: padding específico para cabeçalhos */
 /* Page layout helpers */
 .page {
     -fx-padding: 24 28 24 28;
@@ -170,6 +210,8 @@
     -fx-padding: 6 0 18 0; /* remove left/right padding so headers align with content */
 }
 
+/* Bloco 12: Valor de estatística menor
+   Usado para valores enfatizados mas menores (ex: hobby principal) */
 /* Smaller but emphasized value for text stats (e.g., top hobby) */
 .stat-value-small {
     -fx-font-size: 20px;
@@ -177,6 +219,8 @@
     -fx-text-fill: -gh-text;
 }
 
+/* Bloco 13: Botões primários
+   Fundo accent; texto branco; padding generoso; cantos arredondados */
 .primary-button {
     -fx-background-color: -gh-accent;
     -fx-text-fill: white;
@@ -189,6 +233,8 @@
     -fx-background-color: -gh-accent-hover;
 }
 
+/* Bloco 14: Botões secundários
+   Fundo superfície-2; texto normal; borda sutil; cantos mais arredondados */
 /* Secondary buttons (light mode) to harmonize with overall look */
 .secondary-button {
     -fx-background-color: -gh-surface-2;
@@ -203,6 +249,8 @@
     -fx-background-color: -gh-surface;
 }
 
+/* Bloco 15: Botões de perigo
+   Fundo vermelho derivado; texto branco; destaca operações destrutivas */
 .danger-button {
     -fx-background-color: derive(-gh-danger, 15%);
     -fx-text-fill: white;
@@ -215,16 +263,22 @@
     -fx-background-color: -gh-danger-hover;
 }
 
+/* Bloco 16: Rodapé
+   Fundo transparente; padding menor */
 .footer {
     -fx-background-color: transparent;
     -fx-padding: 10 18;
 }
 
+/* Texto do rodapé com cor silenciada */
 .footer-text {
     -fx-text-fill: -gh-muted;
     -fx-font-size: 12px;
 }
 
+/* Bloco 17: Estilos "hero" para vista de boas-vindas
+   hero-title: título grande e impactante
+   hero-subtitle: texto descritivo menor */
 /* Hero styles for the welcome view */
 .hero-title {
     -fx-font-size: 28px;
@@ -237,6 +291,8 @@
     -fx-text-fill: -gh-muted;
 }
 
+/* Bloco 18: Checkbox genérico (light theme)
+   Caixa com borda sutil; selected com fundo accent claro; marca em cor accent */
 /* Checkbox styling (light theme) */
 .check-box {
     -fx-text-fill: -gh-text;
@@ -262,7 +318,10 @@
     -fx-background-color: -gh-accent;
 }
 
+/* Bloco 19: Color Picker
+   Esconde rótulo hexadecimal para evitar sobreposição visual ou tremulação */
 /* ColorPicker: hide hex label to avoid visual overlap/flicker */
 .color-picker {
     -fx-color-label-visible: false;
 }
+

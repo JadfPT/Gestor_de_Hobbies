@@ -1,3 +1,9 @@
+/*
+ * Propósito geral: representa um utilizador com credenciais, hobbies, sessões e
+ * preferências de UI, pronto a ser serializado para persistência.
+ * Observações: protege listas internas com vistas não modificáveis; inclui
+ * serialVersionUID para consistência de serialização entre versões.
+ */
 package models;
 
 import java.io.Serializable;
@@ -7,11 +13,14 @@ import java.util.List;
 
 public class User implements Serializable {
 
+    // Mantém compatibilidade de serialização ao evoluir a classe
     private static final long serialVersionUID = 1L;
 
+    // Credenciais básicas
     private String username;
     private String password;
 
+    // Coleções de hobbies e sessões do utilizador (listas mutáveis internas)
     private final List<Hobby> hobbies = new ArrayList<>();
     private final List<Sessao> sessoes = new ArrayList<>();
 
@@ -21,11 +30,13 @@ public class User implements Serializable {
     private String prefDateFormat = "yyyy-MM-dd";
     private String prefChartColor = "#f97316";
 
+    // Construtor básico que recebe credenciais
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    // Getters e setters de credenciais
     public String getUsername() {
         return username;
     }
@@ -42,10 +53,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    // Exposição somente leitura das listas para evitar modificações externas
     public List<Hobby> getHobbies() {
         return Collections.unmodifiableList(hobbies);
     }
 
+    // Adiciona/remover hobbies de forma segura
     public void adicionarHobby(Hobby hobby) {
         if (hobby != null) {
             hobbies.add(hobby);
@@ -56,10 +69,12 @@ public class User implements Serializable {
         hobbies.remove(hobby);
     }
 
+    // Exposição somente leitura das sessões
     public List<Sessao> getSessoes() {
         return Collections.unmodifiableList(sessoes);
     }
 
+    // Regista/remover sessões associadas ao utilizador
     public void registarSessao(Sessao sessao) {
         if (sessao != null) {
             sessoes.add(sessao);
@@ -70,7 +85,7 @@ public class User implements Serializable {
         sessoes.remove(sessao);
     }
 
-    // Preferências
+    // Preferências de UI
     public boolean isPrefDarkMode() { return prefDarkMode; }
     public void setPrefDarkMode(boolean prefDarkMode) { this.prefDarkMode = prefDarkMode; }
 
@@ -83,6 +98,7 @@ public class User implements Serializable {
     public String getPrefChartColor() { return prefChartColor; }
     public void setPrefChartColor(String prefChartColor) { this.prefChartColor = prefChartColor; }
 
+    // Para exibição em listas/combos
     @Override
     public String toString() {
         return username;

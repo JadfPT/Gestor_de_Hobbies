@@ -1,3 +1,11 @@
+/*
+ * Propósito geral: controlar o formulário de criação/edição de hobbies, incluindo
+ * preenchimento a partir de sugestões pré-definidas e devolução do resultado ao
+ * controlador principal.
+ * Observações: suporta modo edição (hobbyExistente) e modo criação; alterna entre
+ * campos editáveis ou bloqueados conforme a sugestão escolhida; mensagens simples
+ * de validação no próprio formulário.
+ */
 package ui.controllers;
 
 import javafx.collections.FXCollections;
@@ -28,13 +36,17 @@ public class AddHobbyController {
     @FXML
     private Label lblMensagem;
 
+    // Referência ao controlador pai para notificar alterações
     private HobbiesController hobbiesController;
+    // Quando não nulo, o formulário atua em modo edição
     private Hobby hobbyExistente;
 
+    // Injetado pelo controlador pai para callbacks
     public void setHobbiesController(HobbiesController controller) {
         this.hobbiesController = controller;
     }
 
+    // Preenche o formulário com dados de um hobby para edição
     public void setHobbyExistente(Hobby hobby) {
         this.hobbyExistente = hobby;
 
@@ -42,6 +54,7 @@ public class AddHobbyController {
         cmbCategoria.setValue(hobby.getCategoria());
         txtDescricao.setText(hobby.getDescricao());
 
+        // Garante edição manual quando vem de um existente
         txtNome.setEditable(true);
         txtNome.setDisable(false);
         cmbCategoria.setDisable(false);
@@ -50,6 +63,7 @@ public class AddHobbyController {
         cmbSugestao.getSelectionModel().clearSelection();
     }
 
+    // Inicialização do formulário: carrega listas e ativa campos
     @FXML
     private void initialize() {
         cmbSugestao.setItems(FXCollections.observableArrayList(PredefinedHobbies.values()));
@@ -61,6 +75,7 @@ public class AddHobbyController {
         txtDescricao.setDisable(false);
     }
 
+    // Reage à escolha de uma sugestão, preenchendo ou liberando campos
     @FXML
     private void onSugestaoSelecionada() {
         PredefinedHobbies sel = cmbSugestao.getValue();
@@ -73,6 +88,7 @@ public class AddHobbyController {
             txtDescricao.clear();
             cmbCategoria.setValue(null);
 
+            // Modo personalizado: tudo editável
             txtNome.setEditable(true);
             txtNome.setDisable(false);
             cmbCategoria.setDisable(false);
@@ -84,6 +100,7 @@ public class AddHobbyController {
                 txtDescricao.setText(sel.getDescricao());
             }
 
+            // Sugestão fixa: bloqueia nome e categoria, permite editar descrição
             txtNome.setEditable(false);
             txtNome.setDisable(true);
             cmbCategoria.setDisable(true);
@@ -91,6 +108,7 @@ public class AddHobbyController {
         }
     }
 
+    // Valida e guarda o hobby (novo ou existente), avisando o controlador pai
     @FXML
     private void onGuardar() {
         String nome = txtNome.getText().trim();
@@ -120,11 +138,13 @@ public class AddHobbyController {
         fecharJanela();
     }
 
+    // Cancela a operação e fecha a janela
     @FXML
     private void onCancelar() {
         fecharJanela();
     }
 
+    // Encapsula o fecho da janela atual
     private void fecharJanela() {
         Stage stage = (Stage) txtNome.getScene().getWindow();
         stage.close();

@@ -1,3 +1,9 @@
+/*
+ * Propósito geral: controlar o ecrã de autenticação, validando credenciais e
+ * permitindo navegação para registo ou página principal após login bem-sucedido.
+ * Observações: obtém utilizador/password do formulário; comunica com AppState para
+ * autenticar; mostra mensagens de erro inline no ecrã.
+ */
 package ui.controllers;
 
 import javafx.fxml.FXML;
@@ -20,6 +26,7 @@ public class LoginController {
     @FXML
     private Label lblMensagem;
 
+    // Valida e tenta autenticar o utilizador
     @FXML
     private void onLogin() {
         String user = txtUsername.getText().trim();
@@ -30,19 +37,23 @@ public class LoginController {
             return;
         }
 
+        // Tenta login através do AppState
         boolean ok = AppState.getInstance().login(user, pass);
         if (ok) {
             try {
+                // Sucesso: navega para MainView
                 App.setRoot("views/MainView.fxml");
             } catch (IOException e) {
                 e.printStackTrace();
                 lblMensagem.setText("Erro ao abrir a aplicação.");
             }
         } else {
+            // Credenciais inválidas
             lblMensagem.setText("Dados de login incorretos.");
         }
     }
 
+    // Navega para a página de registo
     @FXML
     private void onOpenRegister() {
         try {

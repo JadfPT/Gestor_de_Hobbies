@@ -1,3 +1,11 @@
+/*
+ * Propósito geral: gerir as configurações do utilizador (password, preferências
+ * de UI como tema/formato de data/hora/cores), logout, limpeza de dados e
+ * (futuramente) eliminação de conta.
+ * Observações: sincroniza preferências com AppState e PreferencesStore; valida
+ * campos com confirmações de texto; mostra mensagens inline; confirmações exigem
+ * input de segurança (APAGAR, LIMPAR).
+ */
 package ui.controllers;
 
 import javafx.application.Platform;
@@ -67,26 +75,30 @@ public class SettingsController {
     @FXML
     private ColorPicker colorChart;
 
+    // Inicialização: mostra utilizador, carrega preferências e ativa listeners
     @FXML
     public void initialize() {
         User u = AppState.getInstance().getCurrentUser();
         lblUsername.setText(u != null ? u.getUsername() : "(sem sessão)");
 
+        // Desabilita botão de apagar até que o utilizador confirme
         txtDeleteConfirm.textProperty().addListener((obs, oldV, newV) -> {
             boolean ok = "APAGAR".equalsIgnoreCase(newV.trim());
             btnDeleteAccount.setDisable(!ok);
             lblDeleteMsg.setText("");
         });
 
+        // Desabilita botão de limpar até que o utilizador confirme
         txtResetConfirm.textProperty().addListener((obs, oldV, newV) -> {
             boolean ok = "LIMPAR".equalsIgnoreCase(newV.trim());
             btnResetData.setDisable(!ok);
             lblResetMsg.setText("");
         });
 
+        // Carrega tema escuro após a UI estar pronta
         Platform.runLater(() -> chkDarkMode.setSelected(App.isDarkModeEnabled()));
 
-        // Populate preference combo boxes
+        // Popula e configura combos de preferências
         if (cmbTimeFormat != null) {
             cmbTimeFormat.getItems().setAll("24h", "12h");
             cmbTimeFormat.setValue(App.isUse24HourTime() ? "24h" : "12h");
@@ -105,6 +117,7 @@ public class SettingsController {
         }
     }
 
+    // Valida e muda a password do utilizador
     @FXML
     private void onChangePassword() {
         lblPassMsg.setText("");
@@ -123,26 +136,31 @@ public class SettingsController {
         if (n1 == null) n1 = "";
         if (n2 == null) n2 = "";
 
+        // Valida campos vazios
         if (current.isBlank() || n1.isBlank() || n2.isBlank()) {
             lblPassMsg.setText("Preenche todos os campos.");
             return;
         }
 
+        // Valida password atual
         if (!u.getPassword().equals(current)) {
             lblPassMsg.setText("Password atual incorreta.");
             return;
         }
 
+        // Valida confirmação de nova password
         if (!n1.equals(n2)) {
             lblPassMsg.setText("A confirmação não coincide.");
             return;
         }
 
+        // Valida comprimento mínimo
         if (n1.length() < 4) {
             lblPassMsg.setText("A nova password deve ter pelo menos 4 caracteres.");
             return;
         }
 
+        // Atualiza password e persiste
         u.setPassword(n1);
         AppState.getInstance().guardar();
 
@@ -153,6 +171,7 @@ public class SettingsController {
         lblPassMsg.setText("Password alterada com sucesso.");
     }
 
+    // Ativa/desativa tema escuro
     @FXML
     private void onToggleTheme() {
         lblThemeMsg.setText("");
@@ -165,17 +184,16 @@ public class SettingsController {
 
         boolean enable = chkDarkMode.isSelected();
         App.setDarkModeEnabled(enable);
-        // Guardar preferência no utilizador
+        // Guarda preferência no utilizador
         var u = AppState.getInstance().getCurrentUser();
         if (u != null) {
             u.setPrefDarkMode(enable);
             AppState.getInstance().guardar();
         }
         data.PreferencesStore.saveAppPrefs();
-
-        // No status text requested; keep silent.
     }
 
+    // Muda formato de hora (12h/24h)
     @FXML
     private void onChangeTimeFormat() {
         String sel = cmbTimeFormat.getValue();
@@ -188,6 +206,7 @@ public class SettingsController {
         data.PreferencesStore.saveAppPrefs();
     }
 
+    // Muda formato de data
     @FXML
     private void onChangeDateFormat() {
         String fmt = cmbDateFormat.getValue();
@@ -200,10 +219,12 @@ public class SettingsController {
         data.PreferencesStore.saveAppPrefs();
     }
 
+    // Muda cor do gráfico
     @FXML
     private void onChangeChartColor() {
         var c = colorChart.getValue();
         if (c != null) {
+            // Converte Color JavaFX para String hexadecimal
             String hex = String.format("#%02X%02X%02X",
                     (int) Math.round(c.getRed() * 255),
                     (int) Math.round(c.getGreen() * 255),
@@ -218,6 +239,7 @@ public class SettingsController {
         }
     }
 
+    // Termina sessão e volta ao login
     @FXML
     private void onLogout() {
         Optional<ButtonType> res = confirm(
@@ -236,11 +258,13 @@ public class SettingsController {
         }
     }
 
+    // Placeholder para eliminação de conta
     @FXML
     private void onDeleteAccount() {
         lblDeleteMsg.setText("Ainda não implementado: falta remover o utilizador do AppData de forma segura.");
     }
 
+    // Apaga todos os hobbies e sessões do utilizador
     @FXML
     private void onResetData() {
         lblResetMsg.setText("");
@@ -261,9 +285,11 @@ public class SettingsController {
         int hobbiesAntes = u.getHobbies().size();
         int sessoesAntes = u.getSessoes().size();
 
+        // Remove todos os hobbies
         for (Hobby h : new ArrayList<>(u.getHobbies())) {
             u.removerHobby(h);
         }
+        // Remove todas as sessões
         for (Sessao s : new ArrayList<>(u.getSessoes())) {
             u.removerSessao(s);
         }
@@ -276,11 +302,13 @@ public class SettingsController {
         lblResetMsg.setText("OK: removidos " + hobbiesAntes + " hobbies e " + sessoesAntes + " sessões.");
     }
 
+    // Obtém a Scene de forma segura
     private Scene getSceneSafe() {
         if (lblUsername == null) return null;
         return lblUsername.getScene();
     }
 
+    // Helper para criar um diálogo de confirmação
     private Optional<ButtonType> confirm(String title, String header, String content) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle(title);

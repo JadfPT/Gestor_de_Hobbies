@@ -1,3 +1,10 @@
+/*
+ * Propósito geral: gerir a lista de hobbies do utilizador, permitindo criar,
+ * editar, apagar e filtrar entradas, mantendo tudo sincronizado com o estado
+ * global da aplicação.
+ * Observações: usa FilteredList para pesquisa reativa; dialogs são modais e
+ * notificam este controlador por callbacks; persiste alterações após cada ação.
+ */
 package ui.controllers;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -42,9 +49,11 @@ public class HobbiesController {
     @FXML
     private Button btnApagar;
 
+    // Dados base e versão filtrada usados pela tabela
     private final ObservableList<Hobby> dados = FXCollections.observableArrayList();
     private FilteredList<Hobby> filtrado;
 
+    // Configura colunas, carrega dados do utilizador e ativa pesquisa/botões
     @FXML
     private void initialize() {
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -83,11 +92,13 @@ public class HobbiesController {
         });
     }
 
+    // Abre diálogo para criar um novo hobby
     @FXML
     private void onNovoHobby() {
         abrirDialogHobby(null);
     }
 
+    // Abre diálogo para editar o hobby selecionado
     @FXML
     private void onEditarHobby() {
         Hobby selecionado = tblHobbies.getSelectionModel().getSelectedItem();
@@ -96,6 +107,7 @@ public class HobbiesController {
         }
     }
 
+    // Pede confirmação e remove o hobby selecionado
     @FXML
     private void onApagarHobby() {
         Hobby selecionado = tblHobbies.getSelectionModel().getSelectedItem();
@@ -119,6 +131,7 @@ public class HobbiesController {
         }
     }
 
+    // Carrega o diálogo de hobby, injeta callbacks e mostra modal
     private void abrirDialogHobby(Hobby aEditar) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/views/AddHobbyView.fxml"));
@@ -143,6 +156,7 @@ public class HobbiesController {
         }
     }
 
+    // Callback quando um novo hobby é criado
     public void adicionarHobby(Hobby hobby) {
         dados.add(hobby);
 
@@ -153,6 +167,7 @@ public class HobbiesController {
         }
     }
 
+    // Callback após edição: refresca tabela e persiste
     public void hobbyAtualizado() {
         tblHobbies.refresh();
         var user = AppState.getInstance().getCurrentUser();

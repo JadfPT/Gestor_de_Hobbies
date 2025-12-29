@@ -1,62 +1,81 @@
+/*
+ * Propósito geral: estilizar a aplicação em tema escuro, sobrepondo as cores
+ * e estilos base com uma paleta escura coerente.
+ * Observações: trabalha em conjunto com base.css; sobrepõe cores de fundo,
+ * texto e componentes; todos os componentes mantêm legibilidade em fundo escuro;
+ * gradientes suaves em áreas principais (fundo, top-bar).
+ */
+
+/* Fundo geral da aplicação com gradiente escuro */
 .root {
     -fx-background-color: linear-gradient(to bottom right, #0b1220, #0f172a);
 }
 
+/* Títulos de cards em tema escuro */
 .card-title {
     -fx-text-fill: #e5e7eb;
 }
 
+/* Texto de cards em tema escuro */
 .card-text {
     -fx-text-fill: #cbd5e1;
 }
 
+/* Barra superior com gradiente azul */
 .top-bar {
     -fx-background-color: linear-gradient(to right, #1f3a8a, #2563eb);
 }
 
+/* Título da aplicação na barra superior em branco */
 .app-title {
     -fx-text-fill: #ffffff;
 }
 
+/* Subtítulo da aplicação na barra superior em azul claro */
 .app-subtitle {
     -fx-text-fill: #bfdbfe;
 }
 
+/* Barra lateral com fundo muito escuro */
 .sidebar {
     -fx-background-color: #0b1220;
     -fx-border-color: #1f2937;
     -fx-border-width: 0 1 0 0;
 }
 
+/* Título na barra lateral */
 .sidebar-title {
     -fx-text-fill: #e5e7eb;
 }
 
+/* Rodapé da barra lateral em cor silenciada */
 .sidebar-footer {
     -fx-text-fill: #94a3b8;
 }
 
+/* Botões da barra lateral com fundo transparente */
 .sidebar-button {
     -fx-background-color: transparent;
     -fx-text-fill: #e5e7eb;
 }
 
+/* Hover dos botões da barra lateral: fundo semi-transparente */
 .sidebar-button:hover {
     -fx-background-color: rgba(255, 255, 255, 0.08);
 }
 
+/* Botão selecionado da barra lateral com fundo azul */
 .sidebar-button.selected {
     -fx-background-color: #2563eb;
     -fx-text-fill: white;
 }
 
-
-/* Red visual for Hobbies button in dark mode */
-
+/* Área de conteúdo com fundo transparente para deixar visível o fundo principal */
 .content-area {
     -fx-background-color: transparent;
 }
 
+/* Cards de diálogo e estatísticas com fundo escuro e borda sutil */
 .dialog-card,
 .stat-card {
     -fx-background-color: #111827;
@@ -64,25 +83,29 @@
     -fx-border-width: 1;
 }
 
-/* Make generic content cards subtle in dark mode; charts shouldn't feel boxed */
+/* Cards de boas-vindas sem borda para aparência sutil */
 .welcome-card {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
+/* Título de diálogos em tema escuro */
 .dialog-title {
     -fx-text-fill: #e5e7eb;
 }
 
+/* Subtítulo e mensagens de diálogos */
 .dialog-subtitle,
 .dialog-message {
     -fx-text-fill: #cbd5e1;
 }
 
+/* Linha de separação em tema escuro */
 .separator .line {
     -fx-border-color: #334155;
 }
 
+/* Campos de entrada (TextFields, PasswordFields) com fundo muito escuro */
 .field-input,
 .text-field,
 .password-field {
@@ -92,51 +115,64 @@
     -fx-border-color: #334155;
 }
 
+/* Estado focado dos campos de entrada: borda azul */
 .text-field:focused,
 .password-field:focused {
     -fx-border-color: #60a5fa;
 }
 
+/* Botões primários em tema escuro */
 .primary-button {
     -fx-text-fill: white;
 }
 
+/* Botões secundários com fundo cinzento escuro */
 .secondary-button {
     -fx-background-color: #334155;
     -fx-text-fill: #e5e7eb;
 }
+
+/* ComboBox e ChoiceBox em tema escuro */
 .combo-box, .combo-box-base, .choice-box {
     -fx-text-fill: #e5e7eb;
 }
 
+/* Células de lista em ComboBox e ChoiceBox */
 .combo-box .list-cell, .choice-box .label {
     -fx-text-fill: #e5e7eb;
 }
 
+/* Texto em ComboBox e ChoiceBox */
 .combo-box .text, .choice-box .text {
     -fx-fill: #e5e7eb;
 }
 
+/* Color Picker em tema escuro */
 .color-picker, .color-picker .label {
     -fx-text-fill: #e5e7eb;
 }
 
+/* Rótulo do Color Picker */
 .color-picker .color-picker-label .text {
     -fx-fill: #e5e7eb;
 }
 
+/* Hover do botão secundário: fundo mais claro */
 .secondary-button:hover {
     -fx-background-color: #475569;
 }
 
+/* Botão voltar atrás */
 .back-button {
     -fx-text-fill: #cbd5e1;
 }
 
+/* CheckBox em tema escuro */
 .check-box {
     -fx-text-fill: #e5e7eb;
 }
 
+/* Caixa do CheckBox com fundo escuro e borda sutil */
 .check-box .box {
     -fx-background-color: #0b1220;
     -fx-border-color: #334155;
@@ -144,19 +180,23 @@
     -fx-border-radius: 6;
 }
 
+/* Marca selecionada do CheckBox em azul */
 .check-box:selected .mark {
     -fx-background-color: #60a5fa;
 }
 
+/* ScrollPane com fundo transparente */
 .scroll-pane {
     -fx-background: transparent;
     -fx-background-color: transparent;
 }
 
+/* Viewport do ScrollPane */
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
 
+/* ListView e TableView com fundo escuro */
 .list-view,
 .table-view {
     -fx-background-color: #111827;
@@ -164,17 +204,18 @@
     -fx-text-fill: #e5e7eb;
 }
 
-/* Ensure table cells render light text in dark mode */
+/* Células da tabela com texto claro */
 .table-view .cell,
 .table-cell {
     -fx-text-fill: #e5e7eb;
 }
 
+/* Texto dentro das células da tabela */
 .table-view .text {
     -fx-fill: #e5e7eb;
 }
 
-/* Stronger specificity for common JavaFX table skins */
+/* Seletores específicos para garantir legibilidade do texto em células */
 .table-view .table-cell .text,
 .table-view .table-row-cell .text,
 .table-view .table-row-cell .label,
@@ -183,30 +224,35 @@
     -fx-text-fill: #e5e7eb;
 }
 
+/* Cabeçalho da tabela com fundo muito escuro */
 .table-view .column-header-background {
     -fx-background-color: #0b1220;
 }
 
+/* Colunas e preenchedor do cabeçalho */
 .table-view .column-header,
 .table-view .filler {
     -fx-background-color: #0b1220;
     -fx-border-color: #1f2937;
 }
 
-
+/* Linhas da tabela com fundo escuro */
 .table-row-cell {
     -fx-background-color: #111827;
     -fx-text-fill: #e5e7eb;
 }
 
+/* Linhas pares com fundo ligeiramente mais escuro para melhor legibilidade */
 .table-row-cell:odd {
     -fx-background-color: #0f172a;
 }
 
+/* Linha selecionada da tabela com destaque azul */
 .table-row-cell:selected {
     -fx-background-color: #1d4ed8;
 }
 
+/* Barra de status com texto silenciado */
 .status-bar .label {
     -fx-text-fill: #94a3b8;
 }
