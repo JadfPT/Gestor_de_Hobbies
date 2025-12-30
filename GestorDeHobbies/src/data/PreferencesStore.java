@@ -32,9 +32,16 @@ public final class PreferencesStore {
     // Carrega o ficheiro de preferências, aplicando cada valor ao App; se algo falhar, mantém defaults
     public static void loadAppPrefs() {
         File f = getPrefsFile();
-        if (!f.exists()) {
-            return;
-        }
+            if (!f.exists()) {
+                // First run: ensure app defaults are light/standard
+                try {
+                    App.setDarkModeEnabled(false);
+                    App.setUse24HourTime(true);
+                    App.setDateFormatPattern("yyyy-MM-dd");
+                    App.setChartColor("#f97316");
+                } catch (Exception ignored) {}
+                return; // use defaults
+            }
         Properties p = new Properties();
         try (FileInputStream in = new FileInputStream(f)) {
             p.load(in);

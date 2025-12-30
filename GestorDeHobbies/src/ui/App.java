@@ -109,6 +109,27 @@ public class App extends Application {
         }
     }
 
+    // Apply current theme to an arbitrary scene (used for dialogs)
+    public static void applyThemeToScene(Scene scene) {
+        if (scene == null) return;
+        Parent root = scene.getRoot();
+        if (root == null) return;
+
+        if (darkModeEnabled) {
+            if (!root.getStyleClass().contains("dark")) root.getStyleClass().add("dark");
+            try {
+                String darkCss = App.class.getResource("style/dark.css").toExternalForm();
+                if (!scene.getStylesheets().contains(darkCss)) scene.getStylesheets().add(darkCss);
+            } catch (Exception ignored) {}
+        } else {
+            root.getStyleClass().remove("dark");
+            try {
+                String darkCss = App.class.getResource("style/dark.css").toExternalForm();
+                scene.getStylesheets().remove(darkCss);
+            } catch (Exception ignored) {}
+        }
+    }
+
     public static void setRoot(String fxml) throws IOException {
         Parent root = loadFXML(fxml);
         primaryStage.getScene().setRoot(root);

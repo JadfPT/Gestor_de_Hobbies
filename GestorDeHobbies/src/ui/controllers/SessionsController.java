@@ -194,9 +194,12 @@ public class SessionsController {
             dialog.initOwner(tblSessoes.getScene().getWindow());
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle(aEditar == null ? "Nova sessão" : "Editar sessão");
-            dialog.setScene(new Scene(root));
+            Scene dialogScene = new Scene(root);
+            dialog.setScene(dialogScene);
             dialog.setResizable(false);
             if (App.getAppIcon() != null) dialog.getIcons().add(App.getAppIcon());
+            // Apply current theme to the dialog so it respects dark/light mode
+            ui.App.applyThemeToScene(dialogScene);
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

@@ -195,11 +195,12 @@
 }
 
 /* =========================
-   Export dialog (LIGHT)
+   Export dialog (LIGHT) - mirror of dark dialog but light
+   The DialogPane itself is the visible card; inner .export-card is transparent.
    ========================= */
 
 .export-dialog.dialog-pane {
-    -fx-background-color: transparent; /* remove “moldura” */
+    -fx-background-color: transparent;
     -fx-padding: 0;
 }
 
@@ -209,40 +210,62 @@
 
 .export-dialog .header-panel {
     -fx-background-color: transparent;
-    -fx-padding: 0;
+    -fx-padding: 0 0 8 0;
+}
+
+/* make the whole dialog pane light */
+.export-dialog {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+    -fx-effect: dropshadow(gaussian, rgba(2,6,23,0.08), 12, 0.10, 0, 6);
 }
 
 .export-dialog .content {
-    -fx-padding: 0;
+    -fx-background-color: transparent;
 }
 
-/* o “card” real */
+/* inner card transparent so content sits on the pane */
 .export-dialog .export-card {
-    -fx-background-color: white;
-    -fx-background-radius: 18;
-    -fx-padding: 22;
-    -fx-border-color: rgba(0,0,0,0.08);
-    -fx-border-radius: 18;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0.2, 0, 6);
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }
 
 .export-dialog .export-title {
     -fx-font-size: 22px;
     -fx-font-weight: 800;
+    -fx-text-fill: #0f172a;
 }
 
 .export-dialog .export-sub {
-    -fx-text-fill: rgba(0,0,0,0.55);
+    -fx-text-fill: rgba(15,23,42,0.6);
 }
 
 .export-dialog .combo-box {
     -fx-background-radius: 12;
     -fx-border-radius: 12;
-    -fx-padding: 6 10 6 10;
+    -fx-padding: 8 12; /* match dark control height */
+    -fx-pref-height: 36;
+    /* make the dropdown look like the dark one but adapted for light background */
+    -fx-background-color: rgba(15,23,42,0.04);
+    -fx-border-color: rgba(15,23,42,0.06);
+    -fx-text-fill: #0f172a;
 }
 
-.export-dialog .button-bar .button {
+/* explicit button classes for light mode */
+.export-dialog .export-primary-button {
+    -fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb);
+    -fx-text-fill: white;
     -fx-background-radius: 12;
-    -fx-padding: 9 16 9 16;
-    -fx-font-weight: 700;
+    -fx-padding: 10 20;
+    -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.28), 10, 0.0, 0, 4);
+}
+
+.export-dialog .export-cancel-button {
+    -fx-background-color: rgba(15,23,42,0.04);
+    -fx-text-fill: #0f172a;
+    -fx-border-color: rgba(15,23,42,0.06);
+    -fx-border-width: 1;
+    -fx-background-radius: 12;
+    -fx-padding: 8 16;
 }

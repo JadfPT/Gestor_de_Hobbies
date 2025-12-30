@@ -375,6 +375,16 @@ public class SettingsController {
         cmb.getItems().addAll("TXT", "PDF");
         cmb.getSelectionModel().selectFirst();
 
+        // Apply inline styles to title and combo so light mode matches dark appearance
+        boolean darkMode = App.isDarkModeEnabled();
+        if (darkMode) {
+            title.setStyle("-fx-font-size:22px; -fx-font-weight:800; -fx-text-fill:#e5e7eb;");
+            cmb.setStyle("-fx-background-color: rgba(255,255,255,0.06); -fx-border-color: rgba(255,255,255,0.12); -fx-text-fill: #e5e7eb; -fx-background-radius:12; -fx-padding:8 12; -fx-pref-height:36;");
+        } else {
+            title.setStyle("-fx-font-size:22px; -fx-font-weight:800; -fx-text-fill:#0f172a;");
+            cmb.setStyle("-fx-background-color: rgba(15,23,42,0.04); -fx-border-color: rgba(15,23,42,0.06); -fx-text-fill: #0f172a; -fx-background-radius:12; -fx-padding:8 12; -fx-pref-height:36;");
+        }
+
         Label lbl = new Label("Formato:");
         HBox row = new HBox(12, lbl, cmb);
         row.setStyle("-fx-alignment: center-left;");
@@ -396,9 +406,32 @@ public class SettingsController {
             dialog.getDialogPane().getStyleClass().add("dark");
         }
 
+        // Force a slightly larger dialog width and keep title/subtitle on a single line
+        dialog.getDialogPane().setPrefWidth(400);
+        title.setWrapText(false);
+        sub.setWrapText(false);
+
         // desativar OK se não houver escolha (por segurança)
         Node okBtn = dialog.getDialogPane().lookupButton(btnOk);
         okBtn.disableProperty().bind(cmb.valueProperty().isNull());
+        // lookup the cancel button and add explicit style classes so CSS applies reliably
+        Node cancelBtn = dialog.getDialogPane().lookupButton(btnCancelar);
+            if (okBtn != null) {
+                okBtn.getStyleClass().add("export-primary-button");
+                boolean dark = App.isDarkModeEnabled();
+                    String primaryStyle = dark
+                        ? "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #60a5fa, #3b82f6); -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 8 18;"
+                        : "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #3b82f6, #2563eb); -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 8 18;";
+                okBtn.setStyle(primaryStyle);
+            }
+            if (cancelBtn != null) {
+                cancelBtn.getStyleClass().add("export-cancel-button");
+                boolean dark = App.isDarkModeEnabled();
+                String cancelStyle = dark
+                        ? "-fx-background-color: rgba(255,255,255,0.06); -fx-text-fill: #e5e7eb; -fx-border-color: rgba(255,255,255,0.08); -fx-border-width:1; -fx-background-radius:12; -fx-padding:8 16;"
+                        : "-fx-background-color: rgba(15,23,42,0.04); -fx-text-fill: #0f172a; -fx-border-color: rgba(15,23,42,0.06); -fx-border-width:1; -fx-background-radius:12; -fx-padding:8 16;";
+                cancelBtn.setStyle(cancelStyle);
+            }
 
         dialog.setResultConverter(bt -> bt == btnOk ? cmb.getValue() : null);
         return dialog.showAndWait();

@@ -147,9 +147,12 @@ public class HobbiesController {
             dialog.initOwner(tblHobbies.getScene().getWindow());
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle(aEditar == null ? "Novo hobby" : "Editar hobby");
-            dialog.setScene(new Scene(root));
+            Scene dialogScene = new Scene(root);
+            dialog.setScene(dialogScene);
             dialog.setResizable(false);
             if (App.getAppIcon() != null) dialog.getIcons().add(App.getAppIcon());
+            // Apply current theme to the dialog so it matches user preferences
+            ui.App.applyThemeToScene(dialogScene);
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
