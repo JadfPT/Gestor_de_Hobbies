@@ -193,3 +193,56 @@
 .axis {
     -fx-tick-label-fill: -gh-muted;
 }
+
+/* =========================
+   Export dialog (LIGHT)
+   ========================= */
+
+.export-dialog.dialog-pane {
+    -fx-background-color: transparent; /* remove “moldura” */
+    -fx-padding: 0;
+}
+
+.export-dialog .dialog-pane {
+    -fx-background-color: transparent;
+}
+
+.export-dialog .header-panel {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.export-dialog .content {
+    -fx-padding: 0;
+}
+
+/* o “card” real */
+.export-dialog .export-card {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-padding: 22;
+    -fx-border-color: rgba(0,0,0,0.08);
+    -fx-border-radius: 18;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0.2, 0, 6);
+}
+
+.export-dialog .export-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: 800;
+}
+
+.export-dialog .export-sub {
+    -fx-text-fill: rgba(0,0,0,0.55);
+}
+
+.export-dialog .combo-box {
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 6 10 6 10;
+}
+
+.export-dialog .button-bar .button {
+    -fx-background-radius: 12;
+    -fx-padding: 9 16 9 16;
+    -fx-font-weight: 700;
+}

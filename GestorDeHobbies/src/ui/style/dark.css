@@ -256,3 +256,74 @@
 .status-bar .label {
     -fx-text-fill: #94a3b8;
 }
+
+
+/* ===============================
+   Export Dialog (DARK) - robust
+   =============================== */
+
+.export-dialog {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* o DialogPane em si */
+.export-dialog.dark {
+    -fx-background-color: #0b1220;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.60), 30, 0.25, 0, 10);
+}
+
+/* evitar header branco default */
+.export-dialog.dark .header-panel {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 10 0;
+}
+
+.export-dialog.dark .content {
+    -fx-background-color: transparent;
+}
+
+/* texto */
+.export-dialog.dark .label {
+    -fx-text-fill: #e5e7eb;
+}
+
+/* subtitle se tiveres */
+.export-dialog.dark .export-sub {
+    -fx-text-fill: rgba(229,231,235,0.75);
+}
+
+/* Combo */
+.export-dialog.dark .combo-box {
+    -fx-background-color: rgba(255,255,255,0.06);
+    -fx-border-color: rgba(255,255,255,0.12);
+    -fx-text-fill: #e5e7eb;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 6 10 6 10;
+}
+
+/* area dos botões */
+.export-dialog.dark .button-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 14 0 0 0;
+}
+
+/* botões */
+.export-dialog.dark .button {
+    -fx-background-radius: 12;
+    -fx-padding: 9 18;
+    -fx-font-weight: 700;
+}
+
+.export-dialog.dark .button:default {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+}
+
+.export-dialog.dark .button:cancel {
+    -fx-background-color: rgba(255,255,255,0.10);
+    -fx-text-fill: #e5e7eb;
+}

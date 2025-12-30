@@ -59,8 +59,8 @@
 
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Button text="Terminar sessão"
-                styleClass="secondary-button"
-                onAction="#onLogout"/>
+                    styleClass="secondary-button"
+                    onAction="#onLogout"/>
             <Region HBox.hgrow="ALWAYS"/>
         </HBox>
 
@@ -84,12 +84,21 @@
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Escreve LIMPAR para desbloquear:" styleClass="card-text"/>
             <TextField fx:id="txtResetConfirm" promptText="LIMPAR"/>
+
             <Button fx:id="btnResetData"
                     text="Limpar / Reset aos meus dados"
                     styleClass="secondary-button"
                     disable="true"
                     onAction="#onResetData"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button fx:id="btnExportData"
+                    text="Exportar dados"
+                    styleClass="primary-button"
+                    onAction="#onExportData"/>
         </HBox>
+
 
         <Label fx:id="lblResetMsg" text="" styleClass="card-text"/>
     </VBox>

@@ -1,23 +1,21 @@
-/*
- * Propósito geral: gerir as configurações do utilizador (password, preferências
- * de UI como tema/formato de data/hora/cores), logout, limpeza de dados e
- * (futuramente) eliminação de conta.
- * Observações: sincroniza preferências com AppState e PreferencesStore; valida
- * campos com confirmações de texto; mostra mensagens inline; confirmações exigem
- * input de segurança (APAGAR, LIMPAR).
- */
 package ui.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import models.Hobby;
 import models.Sessao;
 import models.User;
 import services.AppState;
+import services.ExportService;
 import ui.App;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -29,37 +27,32 @@ public class SettingsController {
 
     @FXML
     private PasswordField pfCurrent;
-
     @FXML
     private PasswordField pfNew;
-
     @FXML
     private PasswordField pfConfirm;
-
     @FXML
     private Label lblPassMsg;
 
     @FXML
     private TextField txtDeleteConfirm;
-
     @FXML
     private Button btnDeleteAccount;
-
     @FXML
     private Label lblDeleteMsg;
 
     @FXML
     private TextField txtResetConfirm;
-
     @FXML
     private Button btnResetData;
-
     @FXML
     private Label lblResetMsg;
 
     @FXML
-    private CheckBox chkDarkMode;
+    private Button btnExportData;
 
+    @FXML
+    private CheckBox chkDarkMode;
     @FXML
     private Label lblThemeMsg;
 
@@ -68,56 +61,58 @@ public class SettingsController {
 
     @FXML
     private ComboBox<String> cmbTimeFormat;
-
     @FXML
     private ComboBox<String> cmbDateFormat;
 
     @FXML
     private ColorPicker colorChart;
 
-    // Inicialização: mostra utilizador, carrega preferências e ativa listeners
+    // =========================
+    // Inicialização
+    // =========================
     @FXML
     public void initialize() {
         User u = AppState.getInstance().getCurrentUser();
         lblUsername.setText(u != null ? u.getUsername() : "(sem sessão)");
 
-        // Desabilita botão de apagar até que o utilizador confirme
-        txtDeleteConfirm.textProperty().addListener((obs, oldV, newV) -> {
-            boolean ok = "APAGAR".equalsIgnoreCase(newV.trim());
+        txtDeleteConfirm.textProperty().addListener((obs, o, n) -> {
+            boolean ok = "APAGAR".equalsIgnoreCase(n.trim());
             btnDeleteAccount.setDisable(!ok);
             lblDeleteMsg.setText("");
         });
 
-        // Desabilita botão de limpar até que o utilizador confirme
-        txtResetConfirm.textProperty().addListener((obs, oldV, newV) -> {
-            boolean ok = "LIMPAR".equalsIgnoreCase(newV.trim());
+        txtResetConfirm.textProperty().addListener((obs, o, n) -> {
+            boolean ok = "LIMPAR".equalsIgnoreCase(n.trim());
             btnResetData.setDisable(!ok);
             lblResetMsg.setText("");
         });
 
-        // Carrega tema escuro após a UI estar pronta
         Platform.runLater(() -> chkDarkMode.setSelected(App.isDarkModeEnabled()));
 
-        // Popula e configura combos de preferências
         if (cmbTimeFormat != null) {
             cmbTimeFormat.getItems().setAll("24h", "12h");
             cmbTimeFormat.setValue(App.isUse24HourTime() ? "24h" : "12h");
             cmbTimeFormat.setOnAction(e -> onChangeTimeFormat());
         }
+
         if (cmbDateFormat != null) {
             cmbDateFormat.getItems().setAll("yyyy-MM-dd", "MM-dd-yyyy", "dd-MM-yyyy");
             cmbDateFormat.setValue(App.getDateFormatPattern());
             cmbDateFormat.setOnAction(e -> onChangeDateFormat());
         }
+
         if (colorChart != null) {
             colorChart.setOnAction(e -> onChangeChartColor());
             try {
                 colorChart.setValue(javafx.scene.paint.Color.web(App.getChartColor()));
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 
-    // Valida e muda a password do utilizador
+    // =========================
+    // Password
+    // =========================
     @FXML
     private void onChangePassword() {
         lblPassMsg.setText("");
@@ -132,35 +127,26 @@ public class SettingsController {
         String n1 = pfNew.getText();
         String n2 = pfConfirm.getText();
 
-        if (current == null) current = "";
-        if (n1 == null) n1 = "";
-        if (n2 == null) n2 = "";
-
-        // Valida campos vazios
         if (current.isBlank() || n1.isBlank() || n2.isBlank()) {
             lblPassMsg.setText("Preenche todos os campos.");
             return;
         }
 
-        // Valida password atual
         if (!u.getPassword().equals(current)) {
             lblPassMsg.setText("Password atual incorreta.");
             return;
         }
 
-        // Valida confirmação de nova password
         if (!n1.equals(n2)) {
             lblPassMsg.setText("A confirmação não coincide.");
             return;
         }
 
-        // Valida comprimento mínimo
         if (n1.length() < 4) {
             lblPassMsg.setText("A nova password deve ter pelo menos 4 caracteres.");
             return;
         }
 
-        // Atualiza password e persiste
         u.setPassword(n1);
         AppState.getInstance().guardar();
 
@@ -171,7 +157,9 @@ public class SettingsController {
         lblPassMsg.setText("Password alterada com sucesso.");
     }
 
-    // Ativa/desativa tema escuro
+    // =========================
+    // Tema e preferências
+    // =========================
     @FXML
     private void onToggleTheme() {
         lblThemeMsg.setText("");
@@ -184,62 +172,68 @@ public class SettingsController {
 
         boolean enable = chkDarkMode.isSelected();
         App.setDarkModeEnabled(enable);
-        // Guarda preferência no utilizador
+
         var u = AppState.getInstance().getCurrentUser();
         if (u != null) {
             u.setPrefDarkMode(enable);
             AppState.getInstance().guardar();
         }
+
         data.PreferencesStore.saveAppPrefs();
     }
 
-    // Muda formato de hora (12h/24h)
     @FXML
     private void onChangeTimeFormat() {
         String sel = cmbTimeFormat.getValue();
         App.setUse24HourTime("24h".equals(sel));
+
         var u = AppState.getInstance().getCurrentUser();
         if (u != null) {
             u.setPrefUse24HourTime(App.isUse24HourTime());
             AppState.getInstance().guardar();
         }
+
         data.PreferencesStore.saveAppPrefs();
     }
 
-    // Muda formato de data
     @FXML
     private void onChangeDateFormat() {
         String fmt = cmbDateFormat.getValue();
         App.setDateFormatPattern(fmt);
+
         var u = AppState.getInstance().getCurrentUser();
         if (u != null) {
             u.setPrefDateFormat(fmt);
             AppState.getInstance().guardar();
         }
+
         data.PreferencesStore.saveAppPrefs();
     }
 
-    // Muda cor do gráfico
     @FXML
     private void onChangeChartColor() {
         var c = colorChart.getValue();
         if (c != null) {
-            // Converte Color JavaFX para String hexadecimal
             String hex = String.format("#%02X%02X%02X",
-                    (int) Math.round(c.getRed() * 255),
-                    (int) Math.round(c.getGreen() * 255),
-                    (int) Math.round(c.getBlue() * 255));
+                    (int) (c.getRed() * 255),
+                    (int) (c.getGreen() * 255),
+                    (int) (c.getBlue() * 255));
+
             App.setChartColor(hex);
+
             var u = AppState.getInstance().getCurrentUser();
             if (u != null) {
                 u.setPrefChartColor(hex);
                 AppState.getInstance().guardar();
             }
+
             data.PreferencesStore.saveAppPrefs();
         }
     }
 
-    // Termina sessão e volta ao login
+    // =========================
+    // Logout / Reset
+    // =========================
     @FXML
     private void onLogout() {
         Optional<ButtonType> res = confirm(
@@ -248,7 +242,9 @@ public class SettingsController {
                 "Vais voltar ao ecrã de login."
         );
 
-        if (res.isEmpty() || res.get() != ButtonType.OK) return;
+        if (res.isEmpty() || res.get() != ButtonType.OK) {
+            return;
+        }
 
         try {
             App.setRoot("views/LoginView.fxml");
@@ -258,13 +254,11 @@ public class SettingsController {
         }
     }
 
-    // Placeholder para eliminação de conta
     @FXML
     private void onDeleteAccount() {
-        lblDeleteMsg.setText("Ainda não implementado: falta remover o utilizador do AppData de forma segura.");
+        lblDeleteMsg.setText("Ainda não implementado.");
     }
 
-    // Apaga todos os hobbies e sessões do utilizador
     @FXML
     private void onResetData() {
         lblResetMsg.setText("");
@@ -280,18 +274,18 @@ public class SettingsController {
                 "Isto vai apagar TODOS os hobbies e sessões.",
                 "Esta ação é irreversível."
         );
-        if (res.isEmpty() || res.get() != ButtonType.OK) return;
-
-        int hobbiesAntes = u.getHobbies().size();
-        int sessoesAntes = u.getSessoes().size();
-
-        // Remove todos os hobbies
-        for (Hobby h : new ArrayList<>(u.getHobbies())) {
-            u.removerHobby(h);
+        if (res.isEmpty() || res.get() != ButtonType.OK) {
+            return;
         }
-        // Remove todas as sessões
-        for (Sessao s : new ArrayList<>(u.getSessoes())) {
-            u.removerSessao(s);
+
+        int h = u.getHobbies().size();
+        int s = u.getSessoes().size();
+
+        for (Hobby hb : new ArrayList<>(u.getHobbies())) {
+            u.removerHobby(hb);
+        }
+        for (Sessao se : new ArrayList<>(u.getSessoes())) {
+            u.removerSessao(se);
         }
 
         AppState.getInstance().guardar();
@@ -299,16 +293,124 @@ public class SettingsController {
         txtResetConfirm.clear();
         btnResetData.setDisable(true);
 
-        lblResetMsg.setText("OK: removidos " + hobbiesAntes + " hobbies e " + sessoesAntes + " sessões.");
+        lblResetMsg.setText("OK: removidos " + h + " hobbies e " + s + " sessões.");
     }
 
-    // Obtém a Scene de forma segura
+    // =========================
+    // EXPORTAÇÃO (DIALOG BONITO)
+    // =========================
+    @FXML
+    private void onExportData() {
+        lblResetMsg.setText("");
+
+        User u = AppState.getInstance().getCurrentUser();
+        if (u == null) {
+            lblResetMsg.setText("Sem utilizador autenticado.");
+            return;
+        }
+
+        Optional<String> formatoOpt = escolherFormatoExportacao();
+        if (formatoOpt.isEmpty()) {
+            return;
+        }
+
+        String formato = formatoOpt.get(); // TXT | PDF
+
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Guardar exportação");
+
+        String safeUser = (u.getUsername() == null || u.getUsername().isBlank())
+                ? "user"
+                : u.getUsername().trim();
+
+        if ("PDF".equals(formato)) {
+            fc.setInitialFileName("export_" + safeUser + ".pdf");
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF (*.pdf)", "*.pdf"));
+        } else {
+            fc.setInitialFileName("export_" + safeUser + ".txt");
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Texto (*.txt)", "*.txt"));
+        }
+
+        Scene scene = getSceneSafe();
+        if (scene == null || scene.getWindow() == null) {
+            lblResetMsg.setText("Não foi possível abrir o selector de ficheiros.");
+            return;
+        }
+
+        File destino = fc.showSaveDialog(scene.getWindow());
+        if (destino == null) {
+            return;
+        }
+
+        try {
+            if ("PDF".equals(formato)) {
+                ExportService.exportUserDataPdf(u, destino);
+            } else {
+                ExportService.exportUserDataTxt(u, destino);
+            }
+            lblResetMsg.setText("Export concluído: " + destino.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            lblResetMsg.setText("Falha ao exportar dados.");
+        }
+    }
+
+    // ===== Dialog custom (herda CSS da Scene) =====
+    private Optional<String> escolherFormatoExportacao() {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Exportar dados");
+
+        ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType btnOk = new ButtonType("Continuar", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(btnCancelar, btnOk);
+
+        // --- UI (card) ---
+        Label title = new Label("Escolhe o formato de exportação");
+        title.getStyleClass().add("export-title");
+
+        Label sub = new Label("Exporta os teus dados em TXT (texto) ou PDF (relatório).");
+        sub.getStyleClass().add("export-sub");
+
+        ComboBox<String> cmb = new ComboBox<>();
+        cmb.getItems().addAll("TXT", "PDF");
+        cmb.getSelectionModel().selectFirst();
+
+        Label lbl = new Label("Formato:");
+        HBox row = new HBox(12, lbl, cmb);
+        row.setStyle("-fx-alignment: center-left;");
+
+        VBox card = new VBox(14, title, sub, row);
+        card.getStyleClass().add("export-card");
+
+        dialog.getDialogPane().setContent(card);
+
+        // --- CSS: herdar da Scene principal ---
+        Scene scene = getSceneSafe();
+        if (scene != null) {
+            dialog.getDialogPane().getStylesheets().addAll(scene.getStylesheets());
+        }
+
+        // classes para o CSS funcionar (light e dark)
+        dialog.getDialogPane().getStyleClass().add("export-dialog");
+        if (App.isDarkModeEnabled()) {
+            dialog.getDialogPane().getStyleClass().add("dark");
+        }
+
+        // desativar OK se não houver escolha (por segurança)
+        Node okBtn = dialog.getDialogPane().lookupButton(btnOk);
+        okBtn.disableProperty().bind(cmb.valueProperty().isNull());
+
+        dialog.setResultConverter(bt -> bt == btnOk ? cmb.getValue() : null);
+        return dialog.showAndWait();
+    }
+
+    // =========================
+    // Helpers
+    // =========================
     private Scene getSceneSafe() {
-        if (lblUsername == null) return null;
-        return lblUsername.getScene();
+        return lblUsername != null ? lblUsername.getScene() : null;
     }
 
-    // Helper para criar um diálogo de confirmação
     private Optional<ButtonType> confirm(String title, String header, String content) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle(title);
@@ -317,12 +419,9 @@ public class SettingsController {
         a.getButtonTypes().setAll(ButtonType.CANCEL, ButtonType.OK);
 
         DialogPane pane = a.getDialogPane();
-        if (pane != null) {
-            if (App.isDarkModeEnabled() && !pane.getStyleClass().contains("dark")) {
-                pane.getStyleClass().add("dark");
-            }
+        if (pane != null && App.isDarkModeEnabled()) {
+            pane.getStyleClass().add("dark");
         }
-
         return a.showAndWait();
     }
 }
